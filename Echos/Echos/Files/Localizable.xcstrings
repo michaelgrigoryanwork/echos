@@ -1,0 +1,94 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "OnboardingIntro.buttonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To Awareness"
+          }
+        }
+      }
+    },
+    "OnboardingIntro.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's not about judgment,  but about care and awareness."
+          }
+        }
+      }
+    },
+    "OnboardingIntro.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Here you will feel calm, at ease, and understood."
+          }
+        }
+      }
+    },
+    "OnboardingIntro.titleHighight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "at ease, and understood."
+          }
+        }
+      }
+    },
+    "OnboardingSteps.buttonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "OnboardingSteps.subtitleOne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "without judgment, without noise."
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleOne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Here you can track\nyour emotions"
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleOneHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "your emotions"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
