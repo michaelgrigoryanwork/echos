@@ -12,6 +12,7 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupData()
     }
 
     // MARK: - Setup
@@ -20,6 +21,14 @@ class BaseViewController: UIViewController {
     }
     
     func setupConstraints() {
+        // TODO: - Don't forget to override.
+    }
+    
+    func setupData() {
+        // TODO: - Don't forget to override.
+    }
+    
+    func setupCallback() {
         // TODO: - Don't forget to override.
     }
 }

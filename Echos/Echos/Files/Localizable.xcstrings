@@ -56,6 +56,17 @@
         }
       }
     },
+    "OnboardingSteps.subtitleFour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "your feelings."
+          }
+        }
+      }
+    },
     "OnboardingSteps.subtitleOne" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -63,6 +74,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "without judgment, without noise."
+          }
+        }
+      }
+    },
+    "OnboardingSteps.subtitleThree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "and get closer to yourself."
+          }
+        }
+      }
+    },
+    "OnboardingSteps.subtitleTwo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just notice it and write it down."
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleFour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No race. \nJust you"
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleFourHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just you"
           }
         }
       }
@@ -85,6 +140,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "your emotions"
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleThree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Echo's will \nhelp you see patterns"
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleThreeHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "help you see patterns"
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleTwo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every day\nis a new shade."
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleTwoHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "is a new shade."
           }
         }
       }

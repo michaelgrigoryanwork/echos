@@ -16,6 +16,7 @@ extension String {
 
 struct EchoesString {
     struct OnboardingIntro {
+        // MARK: - Properties
         static let title = "OnboardingIntro.title".localized()
         static let titleHighlight = "OnboardingIntro.titleHighight".localized()
         static let subtitle = "OnboardingIntro.subtitle".localized()
@@ -23,9 +24,19 @@ struct EchoesString {
     }
     
     struct OnboardingSteps {
+        // MARK: - Properties
         static let titleOne = "OnboardingSteps.titleOne".localized()
         static let titleOneHighlight = "OnboardingSteps.titleOneHighlight".localized()
         static let subtitleOne = "OnboardingSteps.subtitleOne".localized()
+        static let titleTwo = "OnboardingSteps.titleTwo".localized()
+        static let titleTwoHighlight = "OnboardingSteps.titleTwoHighlight".localized()
+        static let subtitleTwo = "OnboardingSteps.subtitleTwo".localized()
+        static let titleThree = "OnboardingSteps.titleThree".localized()
+        static let titleThreeHighlight = "OnboardingSteps.titleThreeHighlight".localized()
+        static let subtitleThree = "OnboardingSteps.subtitleThree".localized()
+        static let titleFour = "OnboardingSteps.titleFour".localized()
+        static let titleFourHighlight = "OnboardingSteps.titleFourHighlight".localized()
+        static let subtitleFour = "OnboardingSteps.subtitleFour".localized()
         static let buttonTitle = "OnboardingSteps.buttonTitle".localized()
     }
 }
