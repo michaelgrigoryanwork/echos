@@ -7,6 +7,10 @@
 
 import Foundation
 
-final class OnboardingIntroViewModel {
+protocol OnboardingIntroViewModelProtocol {
+    
+}
+
+final class OnboardingIntroViewModel: OnboardingIntroViewModelProtocol {
 
 }

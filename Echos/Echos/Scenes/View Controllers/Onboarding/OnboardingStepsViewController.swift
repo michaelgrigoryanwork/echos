@@ -12,17 +12,26 @@ final class OnboardingStepsViewController: BaseViewController {
     private lazy var contentView: OnboardingStepsView = {
         let view = OnboardingStepsView()
         view.onActionButtonTap { [weak self] in
-
+            if self?.viewModel.isLastStep == true {
+                
+            } else {
+                self?.viewModel.selectNextStep {
+                    self?.contentView.setupData(
+                        item: self?.viewModel.getCurrentStep(),
+                        totalSegmentsCount: nil
+                    )
+                }
+            }
         }
         return view
     }()
     
     // MARK: - Properties
-    private let viewModel: OnboardingStepsViewModel
+    private let viewModel: OnboardingStepsViewModelProtocol
     
     // MARK: - Init
     
-    init(viewModel: OnboardingStepsViewModel) {
+    init(viewModel: OnboardingStepsViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -43,5 +52,17 @@ final class OnboardingStepsViewController: BaseViewController {
     
     override func setupConstraints() {
         super.setupConstraints()
+    }
+    
+    override func setupData() {
+        super.setupData()
+        contentView.setupData(
+            item: viewModel.getCurrentStep(),
+            totalSegmentsCount: viewModel.getSteps().count
+        )
+    }
+    
+    override func setupCallback() {
+        super.setupCallback()
     }
 }

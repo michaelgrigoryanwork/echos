@@ -9,12 +9,12 @@ import UIKit
 
 final class EchosLabel: UILabel {
     // MARK: - Properties
-    private let echosLabelConfig: EchosLabelConfig
-    private let echosLabelHighlightConfig: EchosLabelConfig?
+    private var echosLabelConfig: EchosLabelConfig?
+    private var echosLabelHighlightConfig: EchosLabelConfig?
     
     // MARK: - Init
     init(
-        echosLabelConfig: EchosLabelConfig,
+        echosLabelConfig: EchosLabelConfig? = nil,
         echosLabelHighlightConfig: EchosLabelConfig? = nil
     ) {
         self.echosLabelConfig = echosLabelConfig
@@ -34,6 +34,16 @@ final class EchosLabel: UILabel {
         setupUI()
         setupData()
     }
+    
+    // MARK: - Setup
+    func update(
+        echosLabelConfig: EchosLabelConfig? = nil,
+        echosLabelHighlightConfig: EchosLabelConfig? = nil
+    ) {
+        self.echosLabelConfig = echosLabelConfig
+        self.echosLabelHighlightConfig = echosLabelHighlightConfig
+        setupData()
+    }
 }
 
 // MARK: - Setup
@@ -43,14 +53,20 @@ private extension EchosLabel {
     }
     
     func setupViews() {
-        numberOfLines = echosLabelConfig.numberOfLines
+        numberOfLines = echosLabelConfig?.numberOfLines ?? 0
     }
 
     func setupData() {
+        guard let echosLabelConfig else {
+            self.attributedText = nil
+            return
+        }
+        let title = echosLabelConfig.title ?? ""
+        let highlightTitle = echosLabelHighlightConfig?.title ?? ""
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = echosLabelConfig.textAlignment
         let attributedText = NSMutableAttributedString(
-            string: echosLabelConfig.title,
+            string: title,
             attributes: [
                 .font: echosLabelConfig.font,
                 .foregroundColor: echosLabelConfig.textColor,
@@ -59,7 +75,7 @@ private extension EchosLabel {
         )
         
         if let echosLabelHighlightConfig {
-            let range = (echosLabelConfig.title as NSString).range(of: echosLabelHighlightConfig.title)
+            let range = (title as NSString).range(of: highlightTitle)
             attributedText.addAttributes(
                 [
                     .font: echosLabelHighlightConfig.font,
@@ -77,7 +93,7 @@ private extension EchosLabel {
 extension EchosLabel {
     struct EchosLabelConfig {
         // MARK: - Properties
-        let title: String
+        let title: String?
         let font: UIFont
         let textColor: UIColor
         let textAlignment: NSTextAlignment
@@ -85,7 +101,7 @@ extension EchosLabel {
         
         // MARK: - Init
         init(
-            title: String = "",
+            title: String? = nil,
             font: UIFont,
             textColor: UIColor,
             textAlignment: NSTextAlignment = .center,

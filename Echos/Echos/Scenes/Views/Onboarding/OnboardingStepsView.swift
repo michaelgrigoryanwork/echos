@@ -9,6 +9,13 @@ import UIKit
 
 final class OnboardingStepsView: BaseView {
     // MARK: - Views
+    private lazy var segmentedProgressBar: EchosSegmentedProgressBar = {
+        let progressBar = EchosSegmentedProgressBar(
+            echosSegmentedProgressBarConfig: .defaultConfig
+        )
+        return progressBar
+    }()
+    
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView(
             image: EchosImage.OnboardingSteps.logoOne
@@ -23,11 +30,6 @@ final class OnboardingStepsView: BaseView {
                 title: EchoesString.OnboardingSteps.titleOne,
                 font: EchosFont.unboundedBold(size: 24).uiFont,
                 textColor: .echosBlack80
-            ),
-            echosLabelHighlightConfig: .init(
-                title: EchoesString.OnboardingSteps.titleOneHighlight,
-                font: EchosFont.unboundedBold(size: 22).uiFont,
-                textColor: .echosViolet
             )
         )
         return label
@@ -57,11 +59,17 @@ final class OnboardingStepsView: BaseView {
     override func setupViews() {
         super.setupViews()
         
-        addSubviews(logoImageView, titleLabel, subtitleLabel, actionButton)
+        addSubviews(segmentedProgressBar, logoImageView, titleLabel, subtitleLabel, actionButton)
     }
     
     override func setupConstraints() {
         super.setupConstraints()
+        
+        segmentedProgressBar.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(8.0)
+            $0.leading.trailing.equalToSuperview().inset(16.0)
+            $0.height.equalTo(4.0)
+        }
         
         logoImageView.snp.makeConstraints {
             $0.top.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.top).inset(8.0)
@@ -83,6 +91,33 @@ final class OnboardingStepsView: BaseView {
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(8.0)
         }
+    }
+    
+    func setupData(item: OnboardingStep?, totalSegmentsCount: Int?) {
+        logoImageView.image = item?.image
+        titleLabel.update(
+            echosLabelConfig: .init(
+                title: item?.title,
+                font: EchosFont.unboundedBold(size: 24).uiFont,
+                textColor: .echosBlack80
+            ),
+            echosLabelHighlightConfig: .init(
+                title: item?.titleHighlight,
+                font: EchosFont.unboundedBold(size: 22).uiFont,
+                textColor: .echosViolet
+            )
+        )
+        subtitleLabel.update(
+            echosLabelConfig: .init(
+                title: item?.subtitle,
+                font: EchosFont.helveticaRegular(size: 16).uiFont,
+                textColor: .echosBlack80
+            )
+        )
+        if let totalSegmentsCount {
+            segmentedProgressBar.setupData(totalSegmentsCount: totalSegmentsCount)
+        }
+        segmentedProgressBar.highlightSegment(at: item?.position ?? 0)
     }
 }
 

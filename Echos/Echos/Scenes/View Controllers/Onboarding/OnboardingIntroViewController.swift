@@ -18,11 +18,11 @@ final class OnboardingIntroViewController: BaseViewController {
     }()
     
     // MARK: - Properties
-    private let viewModel: OnboardingIntroViewModel
+    private let viewModel: OnboardingIntroViewModelProtocol
     
     // MARK: - Init
     
-    init(viewModel: OnboardingIntroViewModel) {
+    init(viewModel: OnboardingIntroViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
