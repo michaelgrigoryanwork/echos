@@ -9,15 +9,21 @@ import UIKit
 
 final class VCFactory {
     // MARK: - Onboarding
-    static func onboardingIntroViewController() -> OnboardingIntroViewController {
+    static func onboardingIntro() -> OnboardingIntroViewController {
         let vm = OnboardingIntroViewModel()
         let vc = OnboardingIntroViewController(viewModel: vm)
         return vc
     }
     
-    static func onboardingStepsViewController() -> OnboardingStepsViewController {
+    static func onboardingSteps() -> OnboardingStepsViewController {
         let vm = OnboardingStepsViewModel()
         let vc = OnboardingStepsViewController(viewModel: vm)
+        return vc
+    }
+    
+    static func onboardingLoading() -> OnboardingLoadingViewController {
+        let vm = OnboardingLoadingViewModel()
+        let vc = OnboardingLoadingViewController(viewModel: vm)
         return vc
     }
 }

@@ -10,7 +10,7 @@ import SnapKit
 
 final class EchosButton: UIButton {
     // MARK: - Handlers
-    private(set) var didTap: (() -> Void)?
+    private var didTap: (() -> Void)?
 
     // MARK: - Properties
     private let echosButtonState: EchosButtonState

@@ -40,7 +40,7 @@ final class OnboardingIntroViewController: BaseViewController {
 // MARK: - Navigation
 private extension OnboardingIntroViewController {
     func showNextPage() {
-        let vc = VCFactory.onboardingStepsViewController()
+        let vc = VCFactory.onboardingSteps()
         push(vc)
     }
 }

@@ -8,11 +8,24 @@
 import UIKit
 
 class BaseViewController: UIViewController {
+    // MARK: - Properties
+    var shouldHideNavigationBar: Bool {
+        return false
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(
+            shouldHideNavigationBar,
+            animated: animated
+        )
     }
 
     // MARK: - Setup
