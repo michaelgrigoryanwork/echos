@@ -16,10 +16,7 @@ final class OnboardingStepsViewController: BaseViewController {
                 
             } else {
                 self?.viewModel.selectNextStep {
-                    self?.contentView.setupData(
-                        item: self?.viewModel.getCurrentStep(),
-                        totalSegmentsCount: nil
-                    )
+                    self?.contentView.selectNextStep()
                 }
             }
         }
@@ -57,7 +54,7 @@ final class OnboardingStepsViewController: BaseViewController {
     override func setupData() {
         super.setupData()
         contentView.setupData(
-            item: viewModel.getCurrentStep(),
+            items: viewModel.getSteps(),
             totalSegmentsCount: viewModel.getSteps().count
         )
     }
