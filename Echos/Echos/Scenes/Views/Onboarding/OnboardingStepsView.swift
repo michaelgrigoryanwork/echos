@@ -15,35 +15,14 @@ final class OnboardingStepsView: BaseView {
         )
         return progressBar
     }()
-    
-    private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(
-            image: EchosImage.OnboardingSteps.logoOne
-        )
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private lazy var titleLabel: EchosLabel = {
-        let label = EchosLabel(
-            echosLabelConfig: .init(
-                title: EchoesString.OnboardingSteps.titleOne,
-                font: EchosFont.unboundedBold(size: 24).uiFont,
-                textColor: .echosBlack80
-            )
-        )
-        return label
-    }()
-    
-    private lazy var subtitleLabel: EchosLabel = {
-        let label = EchosLabel(
-            echosLabelConfig: .init(
-                title: EchoesString.OnboardingSteps.subtitleOne,
-                font: EchosFont.helveticaRegular(size: 16).uiFont,
-                textColor: .echosBlack80
-            )
-        )
-        return label
+ 
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isPagingEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.delegate = self
+        return scrollView
     }()
     
     private lazy var actionButton: EchosButton = {
@@ -55,11 +34,13 @@ final class OnboardingStepsView: BaseView {
         return button
     }()
     
+    private var items: [OnboardingStep] = []
+    
     // MARK: - Setup
     override func setupViews() {
         super.setupViews()
         
-        addSubviews(segmentedProgressBar, logoImageView, titleLabel, subtitleLabel, actionButton)
+        addSubviews(segmentedProgressBar, scrollView, actionButton)
     }
     
     override func setupConstraints() {
@@ -71,20 +52,10 @@ final class OnboardingStepsView: BaseView {
             $0.height.equalTo(4.0)
         }
         
-        logoImageView.snp.makeConstraints {
-            $0.top.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.top).inset(8.0)
-            $0.leading.trailing.equalToSuperview().inset(16.0)
-            $0.bottom.equalTo(titleLabel.snp.top).inset(-32.0)
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16.0)
-            $0.bottom.equalTo(subtitleLabel.snp.top).inset(-10.0)
-        }
-        
-        subtitleLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16.0)
-            $0.bottom.equalTo(actionButton.snp.top).inset(-82.0)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(segmentedProgressBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(actionButton.snp.top)
         }
         
         actionButton.snp.makeConstraints {
@@ -93,31 +64,51 @@ final class OnboardingStepsView: BaseView {
         }
     }
     
-    func setupData(item: OnboardingStep?, totalSegmentsCount: Int?) {
-        logoImageView.image = item?.image
-        titleLabel.update(
-            echosLabelConfig: .init(
-                title: item?.title,
-                font: EchosFont.unboundedBold(size: 24).uiFont,
-                textColor: .echosBlack80
-            ),
-            echosLabelHighlightConfig: .init(
-                title: item?.titleHighlight,
-                font: EchosFont.unboundedBold(size: 22).uiFont,
-                textColor: .echosViolet
-            )
-        )
-        subtitleLabel.update(
-            echosLabelConfig: .init(
-                title: item?.subtitle,
-                font: EchosFont.helveticaRegular(size: 16).uiFont,
-                textColor: .echosBlack80
-            )
-        )
+    func setupData(items: [OnboardingStep], totalSegmentsCount: Int?) {
+        self.items = items
+        
+        var previousView: UIView? = nil
+        for item in items {
+            let itemView = OnboardingStepsItemView()
+            itemView.setupData(item: item)
+            scrollView.addSubview(itemView)
+            itemView.snp.makeConstraints {
+                $0.top.bottom.equalToSuperview()
+                $0.width.equalToSuperview()
+                $0.height.equalToSuperview()
+                if let prev = previousView {
+                    $0.leading.equalTo(prev.snp.trailing)
+                } else {
+                    $0.leading.equalToSuperview()
+                }
+            }
+            previousView = itemView
+        }
+        previousView?.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+        }
+        
         if let totalSegmentsCount {
             segmentedProgressBar.setupData(totalSegmentsCount: totalSegmentsCount)
         }
-        segmentedProgressBar.highlightSegment(at: item?.position ?? 0)
+        segmentedProgressBar.highlightSegment(at: 0)
+    }
+    
+    func selectNextStep() {
+        guard let currentPageIndex else {
+            return
+        }
+        let nextPage = min(currentPageIndex + 1, items.count - 1)
+        let offset = CGFloat(nextPage) * scrollView.frame.width
+        scrollView.setContentOffset(.init(x: offset, y: 0), animated: true)
+        segmentedProgressBar.highlightSegment(at: nextPage)
+    }
+    
+    private var currentPageIndex: Int? {
+        guard scrollView.frame.width > 0 else {
+            return nil
+        }
+        return Int(round(scrollView.contentOffset.x / scrollView.frame.width))
     }
 }
 
@@ -125,5 +116,20 @@ final class OnboardingStepsView: BaseView {
 extension OnboardingStepsView {
     func onActionButtonTap(_ closure: @escaping () -> Void) {
         actionButton.onTap(closure)
+    }
+}
+
+// MARK: - Scroll View Delegate
+extension OnboardingStepsView: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let currentPageIndex {
+            segmentedProgressBar.highlightSegment(at: currentPageIndex)
+        }
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if let currentPageIndex {
+            segmentedProgressBar.highlightSegment(at: currentPageIndex)
+        }
     }
 }
