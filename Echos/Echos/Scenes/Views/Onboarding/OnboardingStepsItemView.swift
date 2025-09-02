@@ -10,32 +10,18 @@ import UIKit
 final class OnboardingStepsItemView: BaseView {
     // MARK: - Views
     private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(
-            image: EchosImage.OnboardingSteps.logoOne
-        )
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private lazy var titleLabel: EchosLabel = {
-        let label = EchosLabel(
-            echosLabelConfig: .init(
-                title: EchoesString.OnboardingSteps.titleOne,
-                font: EchosFont.unboundedBold(size: 24).uiFont,
-                textColor: .echosBlack80
-            )
-        )
+        let label = EchosLabel()
         return label
     }()
     
     private lazy var subtitleLabel: EchosLabel = {
-        let label = EchosLabel(
-            echosLabelConfig: .init(
-                title: EchoesString.OnboardingSteps.subtitleOne,
-                font: EchosFont.helveticaRegular(size: 16).uiFont,
-                textColor: .echosBlack80
-            )
-        )
+        let label = EchosLabel()
         return label
     }()
 

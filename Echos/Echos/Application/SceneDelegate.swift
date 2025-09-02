@@ -55,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 private extension SceneDelegate {
     func setupSceneDelegate(windowScene: UIWindowScene) {
         let window = UIWindow(windowScene: windowScene)
-        let rootViewController = VCFactory.onboardingIntroViewController()
+        let rootViewController = VCFactory.onboardingIntro()
         window.rootViewController = UINavigationController(rootViewController: rootViewController)
         self.window = window
         window.makeKeyAndVisible()

@@ -11,14 +11,17 @@ final class OnboardingStepsViewController: BaseViewController {
     // MARK: - Views
     private lazy var contentView: OnboardingStepsView = {
         let view = OnboardingStepsView()
-        view.onActionButtonTap { [weak self] in
+        view.onActionButtonTap { [weak self] index in
             if self?.viewModel.isLastStep == true {
-                
+                self?.showNextPage()
             } else {
-                self?.viewModel.selectNextStep {
+                self?.viewModel.selectStep(index: index) {
                     self?.contentView.selectNextStep()
                 }
             }
+        }
+        view.onSegmentedProgressBarHighlightChanged { [weak self] index in
+            self?.viewModel.selectStep(index: index)
         }
         return view
     }()
@@ -61,5 +64,13 @@ final class OnboardingStepsViewController: BaseViewController {
     
     override func setupCallback() {
         super.setupCallback()
+    }
+}
+
+// MARK: - Navigation
+private extension OnboardingStepsViewController {
+    func showNextPage() {
+        let vc = VCFactory.onboardingLoading()
+        push(vc)
     }
 }

@@ -8,6 +8,9 @@
 import UIKit
 
 final class OnboardingStepsView: BaseView {
+    // MARK: - Handlers
+    private var onSegmentedProgressBarHighlightChanged: ((Int) -> Void)?
+
     // MARK: - Views
     private lazy var segmentedProgressBar: EchosSegmentedProgressBar = {
         let progressBar = EchosSegmentedProgressBar(
@@ -28,7 +31,7 @@ final class OnboardingStepsView: BaseView {
     private lazy var actionButton: EchosButton = {
         let button = EchosButton(
             echosButtonState: .normal(
-                title: EchoesString.OnboardingSteps.buttonTitle,
+                title: EchoesString.Onboarding.Steps.buttonTitle,
             )
         )
         return button
@@ -94,19 +97,21 @@ final class OnboardingStepsView: BaseView {
         segmentedProgressBar.highlightSegment(at: 0)
     }
     
+    // MARK: - Methods
     func selectNextStep() {
-        guard let currentPageIndex else {
-            return
-        }
         let nextPage = min(currentPageIndex + 1, items.count - 1)
         let offset = CGFloat(nextPage) * scrollView.frame.width
         scrollView.setContentOffset(.init(x: offset, y: 0), animated: true)
         segmentedProgressBar.highlightSegment(at: nextPage)
     }
     
-    private var currentPageIndex: Int? {
-        guard scrollView.frame.width > 0 else {
-            return nil
+    func onSegmentedProgressBarHighlightChanged(_ closure: @escaping (Int) -> Void) {
+        self.onSegmentedProgressBarHighlightChanged = closure
+    }
+    
+    private var currentPageIndex: Int {
+        guard !scrollView.frame.width.isZero else {
+            return 0
         }
         return Int(round(scrollView.contentOffset.x / scrollView.frame.width))
     }
@@ -114,22 +119,22 @@ final class OnboardingStepsView: BaseView {
 
 // MARK: - Actions
 extension OnboardingStepsView {
-    func onActionButtonTap(_ closure: @escaping () -> Void) {
-        actionButton.onTap(closure)
+    func onActionButtonTap(_ closure: @escaping (Int) -> Void) {
+        actionButton.onTap { [unowned self] in
+            closure(self.currentPageIndex)
+        }
     }
 }
 
 // MARK: - Scroll View Delegate
 extension OnboardingStepsView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if let currentPageIndex {
-            segmentedProgressBar.highlightSegment(at: currentPageIndex)
-        }
+        segmentedProgressBar.highlightSegment(at: currentPageIndex)
+        onSegmentedProgressBarHighlightChanged?(currentPageIndex)
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        if let currentPageIndex {
-            segmentedProgressBar.highlightSegment(at: currentPageIndex)
-        }
+        segmentedProgressBar.highlightSegment(at: currentPageIndex)
+        onSegmentedProgressBarHighlightChanged?(currentPageIndex)
     }
 }

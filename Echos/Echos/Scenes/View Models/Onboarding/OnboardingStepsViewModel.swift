@@ -17,7 +17,14 @@ protocol OnboardingStepsViewModelProtocol {
     func getCurrentStep() -> OnboardingStep?
     func getStep(at index: Int) -> OnboardingStep?
     
-    func selectNextStep(completion: () -> Void)
+    func selectStep(index: Int, completion: (() -> Void)?)
+}
+
+extension OnboardingStepsViewModelProtocol {
+    // MARK: - Methods
+    func selectStep(index: Int, completion: (() -> Void)? = nil) {
+        selectStep(index: index, completion: completion)
+    }
 }
 
 final class OnboardingStepsViewModel {
@@ -33,10 +40,10 @@ final class OnboardingStepsViewModel {
     // MARK: - Init
     init() {
         steps = [
-            .init(position: 0, title: EchoesString.OnboardingSteps.titleOne, titleHighlight: EchoesString.OnboardingSteps.titleOneHighlight, subtitle: EchoesString.OnboardingSteps.subtitleOne, image: EchosImage.OnboardingSteps.logoOne),
-            .init(position: 1, title: EchoesString.OnboardingSteps.titleTwo, titleHighlight: EchoesString.OnboardingSteps.titleTwoHighlight, subtitle: EchoesString.OnboardingSteps.subtitleTwo, image: EchosImage.OnboardingSteps.logoTwo),
-            .init(position: 2, title: EchoesString.OnboardingSteps.titleThree, titleHighlight: EchoesString.OnboardingSteps.titleThreeHighlight, subtitle: EchoesString.OnboardingSteps.subtitleThree, image: EchosImage.OnboardingSteps.logoThree),
-            .init(position: 3, title: EchoesString.OnboardingSteps.titleFour, titleHighlight: EchoesString.OnboardingSteps.titleFourHighlight, subtitle: EchoesString.OnboardingSteps.subtitleFour, image: EchosImage.OnboardingSteps.logoFour)
+            .init(position: 0, title: EchoesString.Onboarding.Steps.titleOne, titleHighlight: EchoesString.Onboarding.Steps.titleOneHighlight, subtitle: EchoesString.Onboarding.Steps.subtitleOne, image: EchosImage.Onboarding.Steps.logoOne),
+            .init(position: 1, title: EchoesString.Onboarding.Steps.titleTwo, titleHighlight: EchoesString.Onboarding.Steps.titleTwoHighlight, subtitle: EchoesString.Onboarding.Steps.subtitleTwo, image: EchosImage.Onboarding.Steps.logoTwo),
+            .init(position: 2, title: EchoesString.Onboarding.Steps.titleThree, titleHighlight: EchoesString.Onboarding.Steps.titleThreeHighlight, subtitle: EchoesString.Onboarding.Steps.subtitleThree, image: EchosImage.Onboarding.Steps.logoThree),
+            .init(position: 3, title: EchoesString.Onboarding.Steps.titleFour, titleHighlight: EchoesString.Onboarding.Steps.titleFourHighlight, subtitle: EchoesString.Onboarding.Steps.subtitleFour, image: EchosImage.Onboarding.Steps.logoFour)
         ]
     }
 }
@@ -55,9 +62,9 @@ extension OnboardingStepsViewModel: OnboardingStepsViewModelProtocol {
         return steps[safe: index]
     }
 
-    func selectNextStep(completion: () -> Void) {
-        selectedStepIndex += 1
-        completion()
+    func selectStep(index: Int, completion: (() -> Void)? = nil) {
+        selectedStepIndex = index
+        completion?()
     }
 }
 

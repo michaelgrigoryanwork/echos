@@ -45,6 +45,28 @@
         }
       }
     },
+    "OnboardingLoading.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emotional Tracker"
+          }
+        }
+      }
+    },
+    "OnboardingLoading.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Echo's"
+          }
+        }
+      }
+    },
     "OnboardingSteps.buttonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
