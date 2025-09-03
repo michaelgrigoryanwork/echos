@@ -47,4 +47,13 @@ struct EchoesString {
             static let subtitle = "OnboardingLoading.subtitle".localized()
         }
     }
+    
+    struct Authorization {
+        // MARK: - Properties
+        static let title = "Authorization.title".localized()
+        static let subtitle = "Authorization.subtitle".localized()
+        static let loginOrRegister = "Authorization.loginOrRegister".localized()
+        static let authWithGoogle = "Authorization.authWithGoogle".localized()
+        static let authWithApple = "Authorization.authWithApple".localized()
+    }
 }

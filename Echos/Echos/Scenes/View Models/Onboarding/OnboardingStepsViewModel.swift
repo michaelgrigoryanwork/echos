@@ -9,7 +9,6 @@ import Foundation
 
 protocol OnboardingStepsViewModelProtocol {
     // MARK: - Properties
-    
     var isLastStep: Bool { get }
     
     // MARK: - Methods

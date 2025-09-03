@@ -26,4 +26,11 @@ final class VCFactory {
         let vc = OnboardingLoadingViewController(viewModel: vm)
         return vc
     }
+    
+    // MARK: - Auth
+    static func authorization() -> AuthorizationViewController {
+        let vm = AuthorizationViewModel()
+        let vc = AuthorizationViewController(viewModel: vm)
+        return vc
+    }
 }

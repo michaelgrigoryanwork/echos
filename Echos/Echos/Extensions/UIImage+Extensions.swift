@@ -10,12 +10,12 @@ import UIKit
 struct EchosImage {
     struct Main {
         // MARK: - Properties
-        static var navigationBack = UIImage(named: "Main.navigationBack")
+        static let navigationBack = UIImage(named: "Main.navigationBack")
     }
     
     struct Onboarding{
         // MARK: - Properties
-        static var logo = UIImage(named: "Onboarding.logo")
+        static let logo = UIImage(named: "Onboarding.logo")
         
         struct Steps {
             // MARK: - Properties
@@ -24,5 +24,11 @@ struct EchosImage {
             static let logoThree = UIImage(named: "OnboardingSteps.logoThree")
             static let logoFour = UIImage(named: "OnboardingSteps.logoFour")
         }
+    }
+    
+    struct Authorization {
+        // MARK: - Properties
+        static let appleIcon = UIImage(named: "Authorization.appleIcon")
+        static let googleIcon = UIImage(named: "Authorization.googleIcon")
     }
 }
