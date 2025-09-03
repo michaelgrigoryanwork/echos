@@ -48,6 +48,7 @@ final class OnboardingLoadingViewController: BaseViewController {
 // MARK: - Navigation
 private extension OnboardingLoadingViewController {
     func showNextPage() {
-
+        let vc = VCFactory.authorization()
+        push(vc)
     }
 }
