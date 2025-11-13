@@ -15,6 +15,7 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Unbounded-SemiBold.ttf</string>
 		<string>Unbounded-Bold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>

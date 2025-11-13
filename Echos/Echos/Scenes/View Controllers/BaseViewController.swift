@@ -47,7 +47,7 @@ class BaseViewController: UIViewController {
 }
 
 // MARK: - Setup
-private extension BaseViewController {
+extension BaseViewController {
     func setupUI() {
         setupViews()
         setupConstraints()
@@ -63,5 +63,17 @@ private extension BaseViewController {
         navigationBar.backIndicatorTransitionMaskImage = image
         navigationBar.tintColor = .echosBlack80
         navigationItem.backButtonDisplayMode = .minimal
+    }
+    
+    func setupNavigationRightBar() {
+        guard let navigationBar = navigationController?.navigationBar else {
+            return
+        }
+        let rightImage = EchosImage.Main.navigationRightIcon
+        let button = UIButton(type: .system)
+        button.setImage(rightImage, for: .normal)
+        button.tintColor = .echosBlack80
+        let rightItem = UIBarButtonItem(customView: button)
+        navigationItem.rightBarButtonItems = [rightItem]
     }
 }
