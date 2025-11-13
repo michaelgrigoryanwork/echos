@@ -168,6 +168,7 @@ final class PaywallContanierView: BaseView {
     private let otherPlansButton: UIButton = {
         let button = UIButton()
         button.contentHorizontalAlignment = .center
+        button.addTarget(self, action: #selector(otherPlansButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -179,6 +180,7 @@ final class PaywallContanierView: BaseView {
         button.backgroundColor = .echosBlack
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
+        button.addTarget(self, action: #selector(tryFreeAction), for: .touchUpInside)
         return button
     }()
     
@@ -190,9 +192,22 @@ final class PaywallContanierView: BaseView {
         footerStack.spacing = 18
         return footerStack
     }()
-    private let termsBtn = UIButton()
-    private let restoreBtn = UIButton()
-    private let privacyBtn = UIButton()
+    
+    private let termsBtn: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(termsOfUseAction), for: .touchUpInside)
+        return button
+    }()
+    private let restoreBtn: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(restorePurchasesAction), for: .touchUpInside)
+        return button
+    }()
+    private let privacyBtn: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(privacyPolicyAction), for: .touchUpInside)
+        return button
+    }()
     
     // MARK: - Setup
     override func setupViews() {
@@ -308,6 +323,28 @@ final class PaywallContanierView: BaseView {
         button.setAttributedTitle(attribut, for: .normal)
         button.contentHorizontalAlignment = .leading
     }
+    
+    //MARK: - Action
+    
+    @objc private func otherPlansButtonTapped() {
+        viewOthersTrigger?()
+    }
+    
+    @objc private func tryFreeAction() {
+        tryFreeTrigger?()
+    }
+    
+    @objc private func restorePurchasesAction() {
+        restorPurchasesTrigger?()
+    }
+    
+    @objc private func termsOfUseAction() {
+        termsAndConditionsTrigger?()
+    }
+    
+    @objc private func privacyPolicyAction() {
+        privacyPolicyTrigger?()
+    }
 }
 
 final class FreeDaysContanierViewElement: BaseView {
@@ -365,7 +402,7 @@ final class FreeDaysContanierViewElement: BaseView {
     }
 }
 
-private final class FeatureCheckRow: UIView {
+final class FeatureCheckRow: UIView {
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()

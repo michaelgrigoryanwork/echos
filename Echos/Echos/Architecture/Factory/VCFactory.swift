@@ -40,4 +40,10 @@ final class VCFactory {
         let vc = PaywallViewController(viewModel: vm)
         return vc
     }
+    
+    static func paywallPlansViewController() -> PaywallPlansViewController {
+        let vm = PaywallPlansViewModel()
+        let vc = PaywallPlansViewController(viewModel: vm)
+        return vc
+    }
 }
