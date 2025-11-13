@@ -11,6 +11,7 @@ struct EchosImage {
     struct Main {
         // MARK: - Properties
         static let navigationBack = UIImage(named: "Main.navigationBack")
+        static let navigationRightIcon = UIImage(named: "logo_small_navigation")
     }
     
     struct Onboarding{

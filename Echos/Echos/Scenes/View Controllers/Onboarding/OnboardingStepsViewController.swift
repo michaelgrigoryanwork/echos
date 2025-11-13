@@ -70,7 +70,8 @@ final class OnboardingStepsViewController: BaseViewController {
 // MARK: - Navigation
 private extension OnboardingStepsViewController {
     func showNextPage() {
-        let vc = VCFactory.onboardingLoading()
+//        let vc = VCFactory.onboardingLoading()
+        let vc = VCFactory.paywallViewController()
         push(vc)
     }
 }

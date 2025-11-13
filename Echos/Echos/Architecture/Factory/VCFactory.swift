@@ -33,4 +33,11 @@ final class VCFactory {
         let vc = AuthorizationViewController(viewModel: vm)
         return vc
     }
+    
+    //MARK: - Paywall
+    static func paywallViewController() -> PaywallViewController {
+        let vm = PaywallViewModel()
+        let vc = PaywallViewController(viewModel: vm)
+        return vc
+    }
 }
