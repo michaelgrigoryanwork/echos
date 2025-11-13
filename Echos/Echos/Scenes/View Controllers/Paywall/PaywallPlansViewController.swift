@@ -1,29 +1,29 @@
 //
-//  PaywallViewController.swift
+//  PaywallPlansViewController.swift
 //  Echos
 //
-//  Created by Emma on 10.11.25.
+//  Created by Emma on 13.11.25.
 //
 
 import UIKit
 
-class PaywallViewController: BaseViewController {
+class PaywallPlansViewController: BaseViewController {
     
-    private lazy var contentView: PaywallContanierView = {
-        let view = PaywallContanierView()
+    private lazy var contentView: PaywallPlansContanieView = {
+        let view = PaywallPlansContanieView()
         return view
     }()
     
     // MARK: - Properties
-    private let viewModel: PaywallViewModel
+    private let viewModel: PaywallPlansViewModel
     
     // MARK: - Init
     
-    init(viewModel: PaywallViewModel) {
+    init(viewModel: PaywallPlansViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -32,7 +32,7 @@ class PaywallViewController: BaseViewController {
     override func loadView() {
         view = contentView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .echosBeige
@@ -41,16 +41,11 @@ class PaywallViewController: BaseViewController {
         setupClosure()
     }
     
-
+    
     private func setupClosure() {
         contentView.tryFreeTrigger = { [weak self] in
             guard let self else { return }
-            
-        }
-        
-        contentView.viewOthersTrigger = { [weak self] in
-            guard let self else { return }
-            let vc = VCFactory.paywallPlansViewController()
+            let vc = VCFactory.onboardingLoading()
             push(vc)
         }
         
@@ -68,6 +63,6 @@ class PaywallViewController: BaseViewController {
             guard let self else { return }
             
         }
-        
     }
+    
 }

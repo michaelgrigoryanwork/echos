@@ -250,6 +250,48 @@
       "localizations": {
         "en": { "stringUnit": { "state": "translated", "value": "Privacy Policy" } }
       }
+    },
+    "OnboardingPaywall.feature.personalStatistics": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Personal statistics" } }
+      }
+    },
+    "OnboardingPlansPaywall.feature.shortMeditations": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Short meditations on the topic of the day" } }
+      }
+    },
+    "OnboardingPaywall.feature.unlimitedEntriesV2": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Unlimited emotional entries" } }
+      }
+    },
+    "OnboardingPaywall.feature.gentlePhrasesSupport": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Support with gentle phrases" } }
+      }
+    },
+    "OnboardingPaywall.plan.monthly": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Monthly" } }
+      }
+    },
+    "OnboardingPaywall.plan.annual": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Annual" } }
+      }
+    },
+    "OnboardingPaywall.plan.lifetime": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": { "stringUnit": { "state": "translated", "value": "Lifetime" } }
+      }
     }
   },
   "version": "1.0"
