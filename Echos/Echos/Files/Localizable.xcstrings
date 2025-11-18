@@ -693,6 +693,17 @@
           }
         }
       }
+    },
+    "meditation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meditation"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

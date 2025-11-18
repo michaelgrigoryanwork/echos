@@ -27,7 +27,7 @@ class BaseViewController: UIViewController {
             animated: animated
         )
     }
-
+    
     // MARK: - Setup
     func setupViews() {
         // TODO: - Don't forget to override.
@@ -79,5 +79,22 @@ extension BaseViewController {
     
     func navigationBarIsHidden(_ isHidden: Bool) {
         navigationController?.setNavigationBarHidden(isHidden, animated: true)
+    }
+    
+    func setNavigationTitle(
+        _ text: String,
+        font: UIFont = EchosFont.helveticaMedium(size: 20).uiFont,
+        color: UIColor = .echosBlack
+    ) {
+        let label = UILabel()
+        label.text = text
+        label.textColor = color
+        label.font = font
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        
+        // Чтобы размерился по контенту
+        label.sizeToFit()
+        navigationItem.titleView = label
     }
 }

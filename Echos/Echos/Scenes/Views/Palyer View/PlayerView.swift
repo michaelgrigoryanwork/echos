@@ -10,50 +10,126 @@ import Lottie
 
 final class PlayerView: BaseView {
     
-    private let gradientLayer = CAGradientLayer()
-    private let blurSpot1 = CALayer()
-    private let blurSpot2 = CALayer()
+    var onPlayPauseTapped: (() -> Void)?
+    var onPlaybackFinished: (() -> Void)?
+    
+    private lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "player_background_image"))
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
+    private lazy var titleLabel: EchosLabel = {
+        let label = EchosLabel(
+            echosLabelConfig: .init(
+                title: "Спокойствие и\nумиротворение",
+                font: EchosFont.unboundedBold(size: 32).uiFont,
+                textColor: .echosBlack80,
+                textAlignment: .left
+            ),
+            echosLabelHighlightConfig: .init(
+                title: "умиротворение",
+                font: EchosFont.unboundedBold(size: 35).uiFont,
+                textColor: .echosBlack,
+                textAlignment: .left
+            )
+        )
+        return label
+    }()
+    
+    private lazy var playAnimationView: LottieAnimationView = {
+        let view = LottieAnimationView(name: "voise_paly_button")
+        view.loopMode = .loop
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
+    private lazy var playAndPousButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "play_icon"), for: .normal)
+        button.setImage(UIImage(named: "pous_icon"), for: .selected)
+        button.addTarget(self, action: #selector(playPauseButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var timeLabel: UILabel = {
+        let label = UILabel()
+        label.font = EchosFont.helveticaRegular(size: 16).uiFont
+        label.textColor = .echosBlack80
+        label.textAlignment = .center
+        label.text = "02:31"
+        return label
+    }()
+    
+    private lazy var bottomAnimationView:  LottieAnimationView = {
+        let view = LottieAnimationView(name: "voice_line")
+        view.loopMode = .loop
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
+    
+    private(set) var isPlaying: Bool = false
     
     // MARK: - Setup
     override func setupViews() {
         super.setupViews()
         setupView()
-        
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        gradientLayer.frame = bounds
-        blurSpot1.frame = CGRect(x: -80, y: -120, width: 300, height: 300)
-        blurSpot2.frame = CGRect(x: bounds.width - 200,
-                                 y: bounds.height - 200,
-                                 width: 320, height: 320)
-        blurSpot1.cornerRadius = blurSpot1.bounds.width / 2
-        blurSpot2.cornerRadius = blurSpot2.bounds.width / 2
     }
     
     private func setupView() {
-        backgroundColor = .clear
-        gradientLayer.colors = [
-            UIColor(red: 228/255, green: 220/255, blue: 255/255, alpha: 1).cgColor,
-            UIColor(red: 200/255, green: 190/255, blue: 255/255, alpha: 1).cgColor
-        ]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint   = CGPoint(x: 1, y: 1)
-        layer.addSublayer(gradientLayer)
+        addSubviews(backgroundImageView)
+        addSubviews(titleLabel)
+        addSubviews(playAnimationView)
+        addSubviews(playAndPousButton)
+        addSubviews(timeLabel)
+        addSubviews(bottomAnimationView)
         
-        configureSpot(blurSpot1,
-                      color: UIColor.white.withAlphaComponent(0.35))
-        configureSpot(blurSpot2,
-                      color: UIColor.white.withAlphaComponent(0.25))
+        backgroundImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide).inset(8)
+            $0.leading.trailing.equalToSuperview().inset(19)
+        }
+        playAnimationView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.centerX.equalToSuperview()
+        }
+        playAndPousButton.snp.makeConstraints {
+            $0.center.equalTo(playAnimationView)
+        }
+        timeLabel.snp.makeConstraints {
+            $0.top.equalTo(playAnimationView.snp.bottom)
+            $0.centerX.equalTo(playAnimationView)
+        }
+        bottomAnimationView.snp.makeConstraints {
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(24)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(200)
+        }
     }
     
-    private func configureSpot(_ layerSpot: CALayer, color: UIColor) {
-        layerSpot.backgroundColor = color.cgColor
-        layerSpot.shadowColor = color.cgColor
-        layerSpot.shadowOpacity = 1
-        layerSpot.shadowRadius = 80
-        layerSpot.shadowOffset = .zero
-        layer.addSublayer(layerSpot)
+    @objc private func playPauseButtonTapped() {
+        onPlayPauseTapped?()
+    }
+    
+    func setIsPlaying(_ playing: Bool) {
+        guard playing != isPlaying else { return }
+        
+        isPlaying = playing
+        playAndPousButton.isSelected = playing
+        
+        if playing {
+            playAnimationView.play()
+            bottomAnimationView.play()
+        } else {
+            playAnimationView.pause()
+            bottomAnimationView.pause()
+        }
+    }
+    
+    func setTime(_ text: String) {
+        timeLabel.text = text
     }
 }

@@ -50,7 +50,8 @@ final class VCFactory {
     //MARK: - Palyer
     
     static func playerViewController() -> PlayerViewController {
-        let vm = PlayerViewModel()
+        let audioService = MeditationAudioService()
+        let vm = PlayerViewModel(audioService: audioService, initialTrack: .calmness)
         let vc = PlayerViewController(viewModel: vm)
         return vc
     }

@@ -58,5 +58,11 @@ class MainViewController: BaseViewController {
             let vc = VCFactory.moodPopup()
             presentScale(vc)
         }
+        
+        contentView.onListenTapped = { [weak self] in
+            guard let self else { return }
+            let vc = VCFactory.playerViewController()
+            push(vc)
+        }
     }
 }
