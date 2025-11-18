@@ -31,4 +31,21 @@ extension UIViewController {
             present(viewController, animated: animated, completion: completion)
         }
     }
+    
+    func presentScale(_ vc: UIViewController) {
+        vc.modalPresentationStyle = .overFullScreen
+        vc.view.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        vc.view.alpha = 0
+        
+        present(vc, animated: false) {
+            UIView.animate(withDuration: 0.35,
+                           delay: 0,
+                           usingSpringWithDamping: 0.85,
+                           initialSpringVelocity: 0.5,
+                           options: .curveEaseOut) {
+                vc.view.alpha = 1
+                vc.view.transform = .identity
+            }
+        }
+    }
 }

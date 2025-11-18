@@ -1,298 +1,699 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "Authorization.authWithApple": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Sign in with Apple" } }
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Authorization.authWithApple" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in with Apple"
+          }
+        }
       }
     },
-    "Authorization.authWithGoogle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Sign in with Google" } }
+    "Authorization.authWithGoogle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in with Google"
+          }
+        }
       }
     },
-    "Authorization.loginOrRegister": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Login or register" } }
+    "Authorization.loginOrRegister" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Login or register"
+          }
+        }
       }
     },
-    "Authorization.subtitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Record your emotions every day, get statistics and recommendations!" } }
+    "Authorization.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record your emotions every day, get statistics and recommendations!"
+          }
+        }
       }
     },
-    "Authorization.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Welcome to Echo’s" } }
+    "Authorization.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to Echo’s"
+          }
+        }
       }
     },
-
-    "OnboardingIntro.buttonTitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "To Awareness" } }
+    "OnboardingIntro.buttonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To Awareness"
+          }
+        }
       }
     },
-    "OnboardingIntro.subtitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "It's not about judgment,\nbut about care and awareness." } }
+    "OnboardingIntro.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's not about judgment,\nbut about care and awareness."
+          }
+        }
       }
     },
-    "OnboardingIntro.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Here you will feel calm,\nat ease, and understood." } }
+    "OnboardingIntro.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Here you will feel calm,\nat ease, and understood."
+          }
+        }
       }
     },
-    "OnboardingIntro.titleHighight": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "at ease, and understood." } }
+    "OnboardingIntro.titleHighight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "at ease, and understood."
+          }
+        }
       }
     },
-
-    "OnboardingLoading.subtitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Emotional Tracker" } }
+    "OnboardingLoading.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emotional Tracker"
+          }
+        }
       }
     },
-    "OnboardingLoading.title": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Echo's" } }
+    "OnboardingLoading.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Echo's"
+          }
+        }
       }
     },
-
-    "OnboardingSteps.buttonTitle": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Continue" } }
+    "OnboardingPaywall.bullet1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record your emotions, notice patterns, find balance."
+          }
+        }
       }
     },
-    "OnboardingSteps.subtitleFour": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "your feelings." } }
+    "OnboardingPaywall.bullet2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We are here for you every day – unobtrusive and supportive."
+          }
+        }
       }
     },
-    "OnboardingSteps.subtitleOne": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "without judgment, without noise." } }
+    "OnboardingPaywall.cta.tryFree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Free"
+          }
+        }
       }
     },
-    "OnboardingSteps.subtitleThree": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "and get closer to yourself." } }
+    "OnboardingPaywall.feature.gentlePhrasesSupport" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support with gentle phrases"
+          }
+        }
       }
     },
-    "OnboardingSteps.subtitleTwo": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Just notice it and write it down." } }
+    "OnboardingPaywall.feature.gentleSupport" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support\nwith gentle\\nphrases"
+          }
+        }
       }
     },
-    "OnboardingSteps.titleFour": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No race. \nJust you" } }
+    "OnboardingPaywall.feature.personalStatistics" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal statistics"
+          }
+        }
       }
     },
-    "OnboardingSteps.titleFourHighlight": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Just you" } }
+    "OnboardingPaywall.feature.personalStats" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal\nstatistics"
+          }
+        }
       }
     },
-    "OnboardingSteps.titleOne": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Here you can track\nyour emotions" } }
+    "OnboardingPaywall.feature.shortMeditations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short meditations\non the topic\nof the day."
+          }
+        }
       }
     },
-    "OnboardingSteps.titleOneHighlight": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "your emotions" } }
+    "OnboardingPaywall.feature.unlimitedEntries" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited\nemotional entries."
+          }
+        }
       }
     },
-    "OnboardingSteps.titleThree": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Echo's will \nhelp you see patterns" } }
+    "OnboardingPaywall.feature.unlimitedEntriesV2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited emotional entries"
+          }
+        }
       }
     },
-    "OnboardingSteps.titleThreeHighlight": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "help you see patterns" } }
+    "OnboardingPaywall.footer.privacy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        }
       }
     },
-    "OnboardingSteps.titleTwo": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Every day\nis a new shade." } }
+    "OnboardingPaywall.footer.restore" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Purchase"
+          }
+        }
       }
     },
-    "OnboardingSteps.titleTwoHighlight": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "is a new shade." } }
+    "OnboardingPaywall.footer.terms" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Use"
+          }
+        }
       }
     },
-
-    "OnboardingPaywall.titleOne": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Awareness" } }
+    "OnboardingPaywall.link.viewOtherPlans" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View other plans"
+          }
+        }
       }
     },
-    "OnboardingPaywall.titleTwo": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "takes time." } }
+    "OnboardingPaywall.noPressure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No pressure. Cancel in a couple of clicks."
+          }
+        }
       }
     },
-    "OnboardingPaywall.titleTwoHighlight": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "time." } }
+    "OnboardingPaywall.plan.annual" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annual"
+          }
+        }
       }
     },
-    "OnboardingPaywall.bullet1": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Record your emotions, notice patterns, find balance." } }
+    "OnboardingPaywall.plan.lifetime" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lifetime"
+          }
+        }
       }
     },
-    "OnboardingPaywall.bullet2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "We are here for you every day – unobtrusive and supportive." } }
+    "OnboardingPaywall.plan.monthly" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monthly"
+          }
+        }
       }
     },
-    "OnboardingPaywall.ribbon.try7daysFree": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Try 7 days free" } }
+    "OnboardingPaywall.ribbon.try7daysFree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try 7 days free"
+          }
+        }
       }
     },
-    "OnboardingPaywall.feature.personalStats": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Personal\nstatistics" } }
+    "OnboardingPaywall.titleOne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Awareness"
+          }
+        }
       }
     },
-    "OnboardingPaywall.feature.shortMeditations": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Short meditations\non the topic\nof the day." } }
+    "OnboardingPaywall.titleTwo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "takes time."
+          }
+        }
       }
     },
-    "OnboardingPaywall.feature.unlimitedEntries": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unlimited\nemotional entries." } }
+    "OnboardingPaywall.titleTwoHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "time."
+          }
+        }
       }
     },
-    "OnboardingPaywall.feature.gentleSupport": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Support\nwith gentle\\nphrases" } }
+    "OnboardingPaywall.trialThenPrice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try 7 days free, then $9.99/month"
+          }
+        }
       }
     },
-    "OnboardingPaywall.trialThenPrice": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Try 7 days free, then $9.99/month" } }
+    "OnboardingPlansPaywall.feature.shortMeditations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short meditations on the topic of the day"
+          }
+        }
       }
     },
-    "OnboardingPaywall.noPressure": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "No pressure. Cancel in a couple of clicks." } }
+    "OnboardingSteps.buttonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
       }
     },
-    "OnboardingPaywall.cta.tryFree": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Try Free" } }
+    "OnboardingSteps.subtitleFour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "your feelings."
+          }
+        }
       }
     },
-    "OnboardingPaywall.link.viewOtherPlans": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "View other plans" } }
+    "OnboardingSteps.subtitleOne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "without judgment, without noise."
+          }
+        }
       }
     },
-    "OnboardingPaywall.footer.terms": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Terms of Use" } }
+    "OnboardingSteps.subtitleThree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "and get closer to yourself."
+          }
+        }
       }
     },
-    "OnboardingPaywall.footer.restore": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Restore Purchase" } }
+    "OnboardingSteps.subtitleTwo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just notice it and write it down."
+          }
+        }
       }
     },
-    "OnboardingPaywall.footer.privacy": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Privacy Policy" } }
+    "OnboardingSteps.titleFour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No race. \nJust you"
+          }
+        }
       }
     },
-    "OnboardingPaywall.feature.personalStatistics": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Personal statistics" } }
+    "OnboardingSteps.titleFourHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just you"
+          }
+        }
       }
     },
-    "OnboardingPlansPaywall.feature.shortMeditations": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Short meditations on the topic of the day" } }
+    "OnboardingSteps.titleOne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Here you can track\nyour emotions"
+          }
+        }
       }
     },
-    "OnboardingPaywall.feature.unlimitedEntriesV2": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Unlimited emotional entries" } }
+    "OnboardingSteps.titleOneHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "your emotions"
+          }
+        }
       }
     },
-    "OnboardingPaywall.feature.gentlePhrasesSupport": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Support with gentle phrases" } }
+    "OnboardingSteps.titleThree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Echo's will \nhelp you see patterns"
+          }
+        }
       }
     },
-    "OnboardingPaywall.plan.monthly": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Monthly" } }
+    "OnboardingSteps.titleThreeHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "help you see patterns"
+          }
+        }
       }
     },
-    "OnboardingPaywall.plan.annual": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Annual" } }
+    "OnboardingSteps.titleTwo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every day\nis a new shade."
+          }
+        }
       }
     },
-    "OnboardingPaywall.plan.lifetime": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": { "stringUnit": { "state": "translated", "value": "Lifetime" } }
+    "emotional.empty_state.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your emotions every day — your\nmood for today will appear here"
+          }
+        }
+      }
+    },
+    "OnboardingSteps.titleTwoHighlight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "is a new shade."
+          }
+        }
+      }
+    },
+    "emotional.mood.question.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How are you feeling today?"
+          }
+        }
+      }
+    },
+    "emotional.mood.bad" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bad"
+          }
+        }
+      }
+    },
+    "emotional.mood.medium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So-So"
+          }
+        }
+      }
+    },
+    "emotional.mood.normal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Okay"
+          }
+        }
+      }
+    },
+    "emotional.mood.good" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good"
+          }
+        }
+      }
+    },
+    "emotional.mood.great" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Great!"
+          }
+        }
+      }
+    },
+    "emotional.mood.comment.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Want to write how you feel?"
+          }
+        }
+      }
+    },
+    "emotional.mood.send" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submit"
+          }
+        }
+      }
+    },
+    "emotional.mood.result.prefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today you feel"
+          }
+        }
+      }
+    },
+    "emotional.mood.change" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change selection"
+          }
+        }
+      }
+    },
+    "emotional.phrase.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phrase of the day"
+          }
+        }
+      }
+    },
+    "meditation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meditation"
+          }
+        }
+      }
+    },
+    "meditation.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After some time,\nas you start adding your emotions, you’ll\nsee personal recommendations tailored\njust for you here."
+          }
+        }
+      }
+    },
+    "meditation.listen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listen"
+          }
+        }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

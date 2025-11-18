@@ -46,4 +46,26 @@ final class VCFactory {
         let vc = PaywallPlansViewController(viewModel: vm)
         return vc
     }
+    
+    //MARK: - Palyer
+    
+    static func playerViewController() -> PlayerViewController {
+        let vm = PlayerViewModel()
+        let vc = PlayerViewController(viewModel: vm)
+        return vc
+    }
+    
+    //MARK: - Main
+    static func mainViewController() -> MainViewController {
+        let vm = MainViewModel()
+        let vc = MainViewController(viewModel: vm)
+        return vc
+    }
+    
+    //MARK: - EmotionalPopup
+    static func moodPopup() -> MoodViewController {
+        let vm = MoodViewControllerViewModel()
+        let vc = MoodViewController(viewModel: vm)
+        return vc
+    }
 }
