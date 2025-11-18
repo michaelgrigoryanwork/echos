@@ -76,4 +76,8 @@ extension BaseViewController {
         let rightItem = UIBarButtonItem(customView: button)
         navigationItem.rightBarButtonItems = [rightItem]
     }
+    
+    func navigationBarIsHidden(_ isHidden: Bool) {
+        navigationController?.setNavigationBarHidden(isHidden, animated: true)
+    }
 }

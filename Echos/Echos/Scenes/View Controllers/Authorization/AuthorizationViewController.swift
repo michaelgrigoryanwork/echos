@@ -36,7 +36,7 @@ final class AuthorizationViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -50,7 +50,14 @@ final class AuthorizationViewController: BaseViewController {
 // MARK: - Navigation
 private extension AuthorizationViewController {
     func showNextPage() {
-        // TODO: - Show next page.
+        guard
+            let windowScene = view.window?.windowScene,
+            let sceneDelegate = windowScene.delegate as? SceneDelegate
+        else {
+            return
+        }
+        
+        sceneDelegate.showMainScreen()
     }
 }
 
@@ -71,13 +78,14 @@ extension AuthorizationViewController: ASAuthorizationControllerDelegate, ASAuth
             return
         }
         viewModel.loginWithApple(
+            userName: appleIDCredential.fullName?.familyName,
             userId: appleIDCredential.user,
             email: appleIDCredential.email
         ) { [weak self] in
             self?.showNextPage()
         }
     }
-
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("Apple Sign-In failed: \(error.localizedDescription)")
     }
@@ -96,12 +104,23 @@ extension AuthorizationViewController {
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, error in
+            if let error = error {
+                print("Google Sign-In failed: \(error.localizedDescription)")
+                return
+            }
             guard let user = result?.user else {
                 return
             }
+            let fullName   = user.profile?.name
+            let givenName  = user.profile?.givenName
+            let email      = user.profile?.email
+
+            let displayName = fullName ?? givenName
+
             self?.viewModel.loginWithGoogle(
+                userName: displayName,
                 userId: user.userID,
-                email: user.profile?.email
+                email: email
             ) { [weak self] in
                 self?.showNextPage()
             }
