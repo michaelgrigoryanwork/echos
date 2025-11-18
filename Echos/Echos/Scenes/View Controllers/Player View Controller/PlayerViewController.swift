@@ -16,14 +16,18 @@ class PlayerViewController: BaseViewController {
     
     // MARK: - Properties
     private let viewModel: PlayerViewModel
+    private let audioService = MeditationAudioService()
     
     // MARK: - Init
     
     init(viewModel: PlayerViewModel) {
-        self.viewModel = viewModel
+        self.viewModel = PlayerViewModel(
+            audioService: audioService,
+            initialTrack: .calmness 
+        )
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -32,21 +36,31 @@ class PlayerViewController: BaseViewController {
     override func loadView() {
         view = contentView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
+        setNavigationTitle(
+            "meditation.title".localized(),
+            font: EchosFont.helveticaMedium(size: 18).uiFont,
+            color: .echosBlack
+        )
+        setupClosures()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupClosures() {
+        contentView.onPlayPauseTapped = { [weak self] in
+            self?.viewModel.togglePlayPause()
+        }
+        
+        viewModel.onIsPlayingChanged = { [weak self] isPlaying in
+            self?.contentView.setIsPlaying(isPlaying)
+        }
+        
+        viewModel.onTimeChanged = { [weak self] time in
+            self?.contentView.setTime(time)
+        }
+        
+        viewModel.viewDidLoad()
     }
-    */
-
 }

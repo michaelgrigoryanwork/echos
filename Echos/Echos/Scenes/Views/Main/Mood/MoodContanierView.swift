@@ -67,7 +67,7 @@ final class MoodContanierView: BaseView {
     
     private let placeholderLabel: UILabel = {
         let label = UILabel()
-        label.text = "emotional.mood.comment.placeholder".localized() // "Хотите что-то написать?"
+        label.text = "emotional.mood.comment.placeholder".localized()
         label.textColor = .echosBlack30
         label.font = EchosFont.helveticaRegular(size: 16).uiFont
         return label
