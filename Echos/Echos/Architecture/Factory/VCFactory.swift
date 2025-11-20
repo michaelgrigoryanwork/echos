@@ -69,4 +69,11 @@ final class VCFactory {
         let vc = MoodViewController(viewModel: vm)
         return vc
     }
+    
+    //MARK: - Home Screen
+    static func homeScreenViewController() -> HomeScreenViewController {
+        let vm = HomeScreenViewModel()
+        let vc = HomeScreenViewController(viewModel: vm)
+        return vc
+    }
 }
