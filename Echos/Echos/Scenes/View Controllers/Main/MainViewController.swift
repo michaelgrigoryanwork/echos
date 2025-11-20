@@ -53,6 +53,11 @@ class MainViewController: BaseViewController {
     }
     
     func setupClosure() {
+        contentView.settingsTrigger = {[weak self] in
+            guard let self else { return }
+            let vc = VCFactory.homeScreenViewController()
+            push(vc)
+        }
         contentView.onCommentTapped = { [weak self] in
             guard let self else { return }
             let vc = VCFactory.moodPopup()

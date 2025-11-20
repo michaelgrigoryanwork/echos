@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "phrase_of_the_day_background.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

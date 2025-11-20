@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "mediation_view_background.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
