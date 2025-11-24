@@ -29,6 +29,8 @@ class MainViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var moodObserver: NSObjectProtocol?
+    
     // MARK: - Lifecycle
     override func loadView() {
         view = contentView
@@ -39,12 +41,36 @@ class MainViewController: BaseViewController {
         view.backgroundColor = .mainBackground
         setInAppStorage()
         setupClosure()
+        setupNotificationCenter()
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationBarIsHidden(true)
+//        MoodDayStorage.shared.resetAll()
+    }
+    
+    deinit {
+        if let moodObserver {
+            NotificationCenter.default.removeObserver(moodObserver)
+        }
+    }
+    
+    func setupNotificationCenter() {
+        moodObserver = NotificationCenter.default.addObserver(
+            forName: .moodDidSave,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let self else { return }
+            guard let mood = notification.userInfo?[MoodNotificationKeys.mood] as? Mood else {
+                return
+            }
+            let text = notification.userInfo?[MoodNotificationKeys.text] as? String
+            
+            self.handleMood(mood, text: text)
+        }
     }
     
     
@@ -58,9 +84,9 @@ class MainViewController: BaseViewController {
             let vc = VCFactory.homeScreenViewController()
             push(vc)
         }
-        contentView.onCommentTapped = { [weak self] in
+        contentView.onCommentTapped = { [weak self] mood in
             guard let self else { return }
-            let vc = VCFactory.moodPopup()
+            let vc = VCFactory.moodPopup(mood: mood ?? .bad)
             presentScale(vc)
         }
         
@@ -69,5 +95,21 @@ class MainViewController: BaseViewController {
             let vc = VCFactory.playerViewController()
             push(vc)
         }
+        
+        contentView.onMoodSendTapped = { [weak self]  mood in
+            guard let self else { return }
+            hendlingOnTapSendButton(mood: mood, text: "")
+        }
+    }
+    
+    private func hendlingOnTapSendButton(mood: Mood, text: String?) {
+        viewModel.saveCommentAndEmotional(text: text ?? "", mood: mood, )
+        contentView.saveMoodAction(mood: mood)
+    }
+    
+    //MARK: - Action
+    
+    private func handleMood(_ mood: Mood, text: String?) {
+        hendlingOnTapSendButton(mood: mood, text: text ?? "")
     }
 }

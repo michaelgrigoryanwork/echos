@@ -847,6 +847,17 @@
           }
         }
       }
+    },
+    "mood.day_limit_reached" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’ve reached the maximum number of moods for today. You can add more tomorrow."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

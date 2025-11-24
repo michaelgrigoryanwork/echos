@@ -18,29 +18,43 @@ protocol DayStripCalendarViewDelegate: AnyObject {
 // MARK: - View
 
 final class DayStripCalendarView: UIView {
-
+    
     weak var delegate: DayStripCalendarViewDelegate?
-
-    var stampedDates: Set<Date> = [] {
-        didSet { monthView.reloadData() }
+    
+    var stampedDates: [Date] = [] {
+        didSet {
+            updateStamps()
+        }
     }
-
+    
+    var currentDate: Date = Date() {
+        didSet {
+            reloadWeek()
+        }
+    }
+    
+    private var weekDates: [Date] = []
+    
     private let monthView = JTACMonthView()
-    private let calendar = Calendar(identifier: .gregorian)
-
+    private let calendar: Calendar = {
+        var cal = Calendar(identifier: .gregorian)
+        cal.locale = Locale(identifier: "ru_RU")
+        cal.firstWeekday = 2
+        return cal
+    }()
+    
     private let weekdayFormatter: DateFormatter = {
         let df = DateFormatter()
         df.locale = Locale(identifier: "ru_RU")
         df.dateFormat = "EE"
         return df
     }()
-
+    
     private var startDate: Date
     private var endDate: Date
-
+    
     // MARK: - Init
-
-    /// По умолчанию: от сегодня -7 до +14 дней
+    
     override init(frame: CGRect) {
         let today = Date()
         let cal = Calendar(identifier: .gregorian)
@@ -49,38 +63,37 @@ final class DayStripCalendarView: UIView {
         super.init(frame: frame)
         setup()
     }
-
-    /// Если хочешь свой диапазон
+    
     init(startDate: Date, endDate: Date) {
         self.startDate = startDate
         self.endDate = endDate
         super.init(frame: .zero)
         setup()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Public
-
+    
     func scrollToToday(animated: Bool = true) {
         monthView.scrollToDate(Date(), animateScroll: animated)
     }
-
+    
     // MARK: - Setup
-
+    
     private func setup() {
         backgroundColor = .clear
-
+        
         addSubview(monthView)
         monthView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
+        
         monthView.calendarDataSource = self
         monthView.calendarDelegate = self
-
+        
         monthView.scrollDirection = .horizontal
         monthView.showsHorizontalScrollIndicator = false
         monthView.showsVerticalScrollIndicator = false
@@ -89,11 +102,35 @@ final class DayStripCalendarView: UIView {
         monthView.isPagingEnabled = false
         monthView.minimumLineSpacing = 8
         monthView.minimumInteritemSpacing = 8
-
+        
         monthView.register(
             DayStripCell.self,
             forCellWithReuseIdentifier: DayStripCell.reuseId
         )
+    }
+    
+    // MARK: - Private helpers
+    
+    private func reloadWeek() {
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentDate)
+        guard let _ = calendar.date(from: components) else { return }
+        monthView.scrollToDate(
+            currentDate,
+            animateScroll: true,
+            preferredScrollPosition: .centeredHorizontally
+        )
+        
+        monthView.reloadData()
+        let today = calendar.startOfDay(for: Date())
+        monthView.selectDates(
+            [today],
+            triggerSelectionDelegate: false,
+            keepSelectionIfMultiSelectionAllowed: false
+        )
+    }
+    
+    private func updateStamps() {
+        monthView.reloadData()
     }
 }
 
@@ -130,32 +167,48 @@ extension DayStripCalendarView: JTACMonthViewDelegate {
                   cellForItemAt date: Date,
                   cellState: CellState,
                   indexPath: IndexPath) -> JTACDayCell {
-
+        
         guard let cell = calendar.dequeueReusableJTAppleCell(
             withReuseIdentifier: DayStripCell.reuseId,
             for: indexPath
         ) as? DayStripCell else {
             return JTACDayCell()
         }
-
+        
         let isToday = self.calendar.isDateInToday(date)
         let hasStamp = stampedDates.contains { self.calendar.isDate($0, inSameDayAs: date) }
-
+        
         let weekday = weekdayFormatter.string(from: date).uppercased()
         let dayNumber = cellState.text
-
+        
+        let day = self.calendar.startOfDay(for: date)
+        let today = self.calendar.startOfDay(for: Date())
+        
+        let isWithinCurrentMonth = (day <= today)
         cell.configure(
+            dayDate: date,
             weekday: weekday,
             day: dayNumber,
             isSelected: cellState.isSelected,
             isToday: isToday,
             hasStamp: hasStamp,
-            isWithinCurrentMonth: cellState.dateBelongsTo == .thisMonth
+            isWithinCurrentMonth: isWithinCurrentMonth
         )
-
+        
         return cell
     }
-
+    
+    func calendar(_ calendar: JTACMonthView,
+                  shouldSelectDate date: Date,
+                  cell: JTACDayCell?,
+                  cellState: CellState,
+                  indexPath: IndexPath) -> Bool {
+        let day = self.calendar.startOfDay(for: date)
+        let today = self.calendar.startOfDay(for: Date())
+        
+        return day <= today
+    }
+    
     func calendar(_ calendar: JTACMonthView,
                   didSelectDate date: Date,
                   cell: JTACDayCell?,
@@ -164,7 +217,7 @@ extension DayStripCalendarView: JTACMonthViewDelegate {
         (cell as? DayStripCell)?.setSelected(true)
         delegate?.calendarView(self, didSelect: date)
     }
-
+    
     func calendar(_ calendar: JTACMonthView,
                   didDeselectDate date: Date,
                   cell: JTACDayCell?,
@@ -177,14 +230,14 @@ extension DayStripCalendarView: JTACMonthViewDelegate {
 // MARK: - Cell
 
 final class DayStripCell: JTACDayCell {
-
+    
     static let reuseId = "DayStripCell"
     private let normalBorderColor = UIColor.calendarBackground.cgColor
     private let selectedBorderColor = UIColor.calendarBorderSelection50.cgColor
     private let normalBackgroundColor = UIColor.calendarbackground30
     private let selectedBackgroundColor = UIColor.calendarBackground
-
-
+    
+    
     private let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 16
@@ -213,24 +266,24 @@ final class DayStripCell: JTACDayCell {
         imageView.image = UIImage(named: "calendar_icon")
         return imageView
     }()
-
+    
     private var isSelectedState: Bool = false {
         didSet { updateAppearance() }
     }
-
+    
     // MARK: - Init
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Setup
-
+    
     private func setup() {
         contentView.addSubview(containerView)
         containerView.snp.makeConstraints { make in
@@ -242,58 +295,52 @@ final class DayStripCell: JTACDayCell {
             make.leading.equalToSuperview().offset(4)
             make.width.height.equalTo(12)
         }
-
+        
         containerView.addSubview(weekdayLabel)
         containerView.addSubview(dayLabel)
-
+        
         weekdayLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(12)
             make.centerX.equalToSuperview()
         }
-
+        
         dayLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(8)
             make.centerX.equalToSuperview()
         }
     }
-
+    
     // MARK: - Configure
-
-    func configure(weekday: String,
+    
+    func configure(dayDate: Date,
+                   weekday: String,
                    day: String,
                    isSelected: Bool,
                    isToday: Bool,
                    hasStamp: Bool,
                    isWithinCurrentMonth: Bool) {
-
+        
         weekdayLabel.text = weekday
         dayLabel.text = day
-
-        stampImageView.isHidden = false
-
-        // тут можешь добавить особый стиль "сегодня"
-//        if isToday {
-//            dayLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-//        } else {
-//            dayLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-//        }
-
-        // если дата не из текущего месяца — можно побледнить
-        if !isWithinCurrentMonth {
+        
+        
+        if isWithinCurrentMonth {
             weekdayLabel.textColor = .echosBlack30
             dayLabel.textColor = .echosBlack80
+            stampImageView.isHidden = MoodDayStorage.shared.canAddMood(on: dayDate)
         } else {
             weekdayLabel.textColor = .echosBlack30
             dayLabel.textColor = .echosBlack30
+            stampImageView.isHidden = true
         }
-
+        
         isSelectedState = isSelected
     }
-
+    
     func setSelected(_ selected: Bool) {
         isSelectedState = selected
     }
-
+    
     private func updateAppearance() {
         if isSelectedState {
             containerView.layer.borderColor = selectedBorderColor

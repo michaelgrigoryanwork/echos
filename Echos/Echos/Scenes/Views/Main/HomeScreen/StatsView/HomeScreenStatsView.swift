@@ -86,7 +86,7 @@ final class HomeScreenStatsView: BaseView {
         
         setupView()
         setupLegend()
-        generateCurrentMonthMockData()
+        generateCurrentMonthRealData()
     }
     
     override func layoutSubviews() {
@@ -225,24 +225,34 @@ final class HomeScreenStatsView: BaseView {
         self.days = days
         collectionView.reloadData()
     }
-    private func generateCurrentMonthMockData() {
+    
+    private func generateCurrentMonthRealData() {
         let calendar = Calendar.current
         let now = Date()
-        let count = calendar.numberOfDays(in: now)  // 28/29/30/31 — всё учтено
+        let count = calendar.numberOfDays(in: now)
         
         var result: [MoodDay] = []
+        
         for day in 1...count {
             var comps = calendar.dateComponents([.year, .month], from: now)
             comps.day = day
-            let date = calendar.date(from: comps) ?? now
+            guard let date = calendar.date(from: comps) else { continue }
             
-            // временно рандомное настроение
-            let mood = MoodType.allCases.randomElement() ?? .normal
-            result.append(MoodDay(date: date, mood: mood))
+            let moods = MoodDayStorage.shared.moods(for: date)
+            
+            let moodType: MoodType
+            if let last = moods.sorted(by: { $0.date < $1.date }).last {
+                moodType = last.mood.asMoodType
+            } else {
+                moodType = .skipped 
+            }
+            
+            result.append(MoodDay(date: date, mood: moodType))
         }
         
         configure(days: result)
     }
+
 }
 
 struct MoodDay {
@@ -341,11 +351,5 @@ extension MoodType {
     
     var dotIcon: UIImage? {
         UIImage(named: "dot_icon")
-    }
-}
-
-extension Calendar {
-    func numberOfDays(in monthDate: Date) -> Int {
-        range(of: .day, in: .month, for: monthDate)?.count ?? 30
     }
 }
