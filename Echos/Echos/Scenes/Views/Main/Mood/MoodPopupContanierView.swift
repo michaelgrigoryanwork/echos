@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-final class MoodContanierView: BaseView {
+final class MoodPopupContanierView: BaseView {
     
-    var onSendTapped: (() -> Void)?
+    var onSendTapped: ((String) -> Void)?
     var onDismiss: (() -> Void)?
     
     private lazy var bottomContanierView: UIView = {
@@ -100,7 +100,6 @@ final class MoodContanierView: BaseView {
     override func setupViews() {
         super.setupViews()
         setupView()
-        setupMoods()
         textView.delegate = self
         setupKeyboardHandling()
         setupTapToDismiss()
@@ -209,13 +208,15 @@ final class MoodContanierView: BaseView {
         }
     }
     
-    private func setupMoods() {
+    
+    func seletionMood(_ moodSelection: Mood) {
         Mood.allCases.forEach { mood in
             let item = MoodSelectionItemView()
             item.configure(
                 iconName: mood.iconName,
                 title: mood.titleKey.localized()
             )
+            item.isSelected = (mood == moodSelection)
             item.tag = moodTag(mood)
             moodsStackView.addArrangedSubview(item)
             itemViews[mood] = item
@@ -224,7 +225,9 @@ final class MoodContanierView: BaseView {
     
     
     @objc private func handleSendTapped() {
-        onSendTapped?()
+        let text = textView.text ?? ""
+        let textSave = text.replacingOccurrences(of: "\n", with: " ")
+        onSendTapped?(textSave)
     }
     
     // MARK: - Tag helpers
@@ -251,7 +254,7 @@ final class MoodContanierView: BaseView {
     }
 }
 
-extension MoodContanierView {
+extension MoodPopupContanierView {
     private func setupKeyboardHandling() {
         NotificationCenter.default.addObserver(
             self,
@@ -371,7 +374,7 @@ extension MoodContanierView {
     }
 }
 
-extension MoodContanierView: UITextViewDelegate {
+extension MoodPopupContanierView: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         updateCounterAndAppearance()

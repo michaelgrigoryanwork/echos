@@ -59,7 +59,6 @@ final class AppStateStorage {
         userSession != nil
     }
     
-    /// Условие: прошёл онбординг И залогинен
     var shouldShowMainApp: Bool {
         isLoggedIn && isOnboardingPassed
     }

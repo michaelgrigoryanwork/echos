@@ -24,5 +24,19 @@ final class MainViewModel {
         }
         return ""
     }
+    
+    func saveCommentAndEmotional(text: String, mood: Mood) {
+        do {
+            try MoodDayStorage.shared.addMood(
+                mood: mood,
+                text: text,
+                for: Date()
+            )
+        } catch MoodDayStorageError.dayLimitReached {
+            print("Vsyo Polniya")
+        } catch {
+            print("Neizvestnaya oshibka: \(error)")
+        }
+    }
 }
 

@@ -57,6 +57,16 @@ final class MoodResultView: BaseView {
         return button
     }()
     
+    private lazy var limitWorningLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .echosBlack80
+        label.font = EchosFont.helveticaRegular(size: 14).uiFont
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.text = "mood.day_limit_reached".localized()
+        return label
+    }()
+    
     // MARK: - Init / Setup
     
     override func setupViews() {
@@ -69,7 +79,6 @@ final class MoodResultView: BaseView {
         layer.cornerRadius = 24
         clipsToBounds = true
         
-        // Верхняя часть: иконка + текст
         let labelsStack = UIStackView(arrangedSubviews: [subtitleLabel, titleLabel])
         labelsStack.axis = .vertical
         labelsStack.spacing = 2
@@ -80,27 +89,39 @@ final class MoodResultView: BaseView {
         topStack.alignment = .center
         topStack.spacing = 16
         
-        // Главный вертикальный стек
-        let contentStack = UIStackView(arrangedSubviews: [topStack, changeButton])
+        let contentStack = UIStackView(arrangedSubviews: [topStack, changeButton, limitWorningLabel])
         contentStack.axis = .vertical
-        contentStack.spacing = 16
+        contentStack.spacing = 24
         
         addSubview(contentStack)
         contentStack.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(24)
-            make.bottom.equalToSuperview().inset(24)
+            make.bottom.equalToSuperview().inset(32)
         }
         
         changeButton.snp.makeConstraints { make in
             make.height.equalTo(54)
         }
+        limitWorningLabel.isHidden = true
     }
     
     // MARK: - Public
     
-    func configure(with mood: Mood) {
+    func configure(with mood: Mood, isLimited: Bool, notCuurentDate: Bool) {
         moodImageView.image = UIImage(named: mood.iconName)
         titleLabel.text = mood.titleKey.localized()
+        if !notCuurentDate {
+            if isLimited {
+                changeButton.isHidden = true
+                limitWorningLabel.isHidden = false
+            } else {
+                changeButton.isHidden = false
+                limitWorningLabel.isHidden = true
+            }
+        } else {
+            changeButton.isHidden = true
+            limitWorningLabel.isHidden = true
+        }
     }
     
     // MARK: - Actions

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-enum Mood: CaseIterable {
+enum Mood: CaseIterable, Codable {
     case bad
     case medium
     case normal
@@ -34,14 +34,37 @@ enum Mood: CaseIterable {
         case .great:  return "great_emotional_icon"
         }
     }
+    
+    var colorName: String {
+        switch self {
+        case .great:   return "emotionalGreat"
+        case .good:    return "emotionalGood"
+        case .normal:  return "emotionalNormal"
+        case .medium:  return "emotionalMedium"
+        case .bad:     return "emotionalBad"
+        }
+    }
+    
+    var color: UIColor {
+        UIColor(named: colorName) ?? .black
+    }
+    
+    var asMoodType: MoodType {
+        switch self {
+        case .bad:    return .bad
+        case .medium: return .medium
+        case .normal: return .normal
+        case .good:   return .good
+        case .great:  return .great
+        }
+    }
 }
 
 final class MoodSelectionView: BaseView {
     
-    // колбэки наружу
     var onMoodSelected: ((Mood) -> Void)?
     var onSendTapped: ((Mood) -> Void)?
-    var onCommentTapped: (() -> Void)?
+    var onCommentTapped: ((Mood?) -> Void)?
     
     // MARK: - UI
     
@@ -109,7 +132,7 @@ final class MoodSelectionView: BaseView {
             updateSelection()
             showCommentIfNeeded()
         }
-    }    
+    }
     
     // MARK: - Lifecycle
     
@@ -190,7 +213,7 @@ final class MoodSelectionView: BaseView {
     }
     
     @objc private func handleCommentTapped() {
-        onCommentTapped?()
+        onCommentTapped?(selectedMood)
     }
     
     @objc private func handleSendTapped() {
@@ -206,7 +229,6 @@ final class MoodSelectionView: BaseView {
     
     private func showCommentIfNeeded() {
         guard selectedMood != nil else { return }
-        // если уже показано — ничего не делаем
         guard sendButton.isHidden else { return }
         
         commentButton.isHidden = false

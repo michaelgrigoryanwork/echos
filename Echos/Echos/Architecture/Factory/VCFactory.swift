@@ -64,9 +64,9 @@ final class VCFactory {
     }
     
     //MARK: - EmotionalPopup
-    static func moodPopup() -> MoodViewController {
-        let vm = MoodViewControllerViewModel()
-        let vc = MoodViewController(viewModel: vm)
+    static func moodPopup(mood: Mood) -> MoodPopupViewController {
+        let vm = MoodPopupViewControllerViewModel()
+        let vc = MoodPopupViewController(viewModel: vm, mood: mood)
         return vc
     }
     
