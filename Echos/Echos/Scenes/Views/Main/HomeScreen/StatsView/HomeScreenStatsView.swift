@@ -344,10 +344,10 @@ extension MoodType {
         case .skipped: return "Пропущенный день"
         }
     }
-    
-    var icon: UIImage? {
-        UIImage(named: "emotional_icon")
-    }
+//    
+//    var icon: UIImage? {
+//        UIImage(named: "emotional_icon")
+//    }
     
     var dotIcon: UIImage? {
         UIImage(named: "dot_icon")

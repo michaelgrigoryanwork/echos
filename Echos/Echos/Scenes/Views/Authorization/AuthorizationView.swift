@@ -6,15 +6,17 @@
 //
 
 import UIKit
+import Lottie
 
 final class AuthorizationView: BaseView {
+    
     // MARK: - Views
-    private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(
-            image: EchosImage.Onboarding.logo
-        )
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private lazy var logoAnimationView: LottieAnimationView = {
+        let animationView = LottieAnimationView(name: "logo_onboarding")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.0
+        return animationView
     }()
     
     private lazy var containerView: UIView = {
@@ -125,13 +127,13 @@ final class AuthorizationView: BaseView {
         
         containerView.addSubviews(titleLabel, subtitleLabel, separatorView, loginOrRegisterLabel, buttonsStackView)
         
-        addSubviews(logoImageView, containerView)
+        addSubviews(logoAnimationView, containerView)
     }
     
     override func setupConstraints() {
         super.setupConstraints()
         
-        logoImageView.snp.makeConstraints {
+        logoAnimationView.snp.makeConstraints {
             $0.top.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.top).inset(8.0)
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(containerView.snp.top).offset(-26.0)
@@ -166,6 +168,7 @@ final class AuthorizationView: BaseView {
             $0.leading.trailing.equalToSuperview().inset(24.0)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(24.0)
         }
+        logoAnimationView.play()
     }
     
     // MARK: - Methods

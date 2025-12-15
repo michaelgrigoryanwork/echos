@@ -48,7 +48,7 @@ class MoodPopupViewController: BaseViewController {
     }
     
     private func setupClosure() {
-        contentView.onSendTapped = {[weak self] text in
+        contentView.onSendTapped = {[weak self] text, mood in
             guard let self else { return }
             NotificationCenter.default.post(
                     name: .moodDidSave,

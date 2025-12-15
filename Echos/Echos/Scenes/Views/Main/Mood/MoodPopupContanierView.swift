@@ -10,7 +10,7 @@ import SnapKit
 
 final class MoodPopupContanierView: BaseView {
     
-    var onSendTapped: ((String) -> Void)?
+    var onSendTapped: ((String, Mood) -> Void)?
     var onDismiss: (() -> Void)?
     
     private lazy var bottomContanierView: UIView = {
@@ -96,6 +96,11 @@ final class MoodPopupContanierView: BaseView {
     private var bottomConstraint: Constraint?
     
     private var itemViews: [Mood: MoodSelectionItemView] = [:]
+    private var selectedMood: Mood? {
+        didSet {
+            updateSelection()
+        }
+    }
     
     override func setupViews() {
         super.setupViews()
@@ -218,16 +223,32 @@ final class MoodPopupContanierView: BaseView {
             )
             item.isSelected = (mood == moodSelection)
             item.tag = moodTag(mood)
+            item.addTarget(self, action: #selector(moodTapped(_:)), for: .touchUpInside)
             moodsStackView.addArrangedSubview(item)
+            selectedMood = moodSelection
             itemViews[mood] = item
         }
     }
     
+    private func updateSelection() {
+        itemViews.forEach { mood, view in
+            view.isSelected = (mood == selectedMood)
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func moodTapped(_ sender: UIControl) {
+        guard let mood = moodFromTag(sender.tag) else { return }
+        selectedMood = mood
+    }
+    
     
     @objc private func handleSendTapped() {
+        guard let mood = selectedMood else { return }
         let text = textView.text ?? ""
         let textSave = text.replacingOccurrences(of: "\n", with: " ")
-        onSendTapped?(textSave)
+        onSendTapped?(textSave, mood)
     }
     
     // MARK: - Tag helpers
@@ -325,11 +346,9 @@ extension MoodPopupContanierView {
         
         switch gesture.state {
         case .changed:
-            // двигаем только вниз
             let offsetY = max(0, translation.y)
             bottomContanierView.transform = CGAffineTransform(translationX: 0, y: offsetY)
             
-            // чуть-чуть ослабляем фон
             let progress = min(1, offsetY / 300)
             backgroundColor = UIColor.black60.withAlphaComponent(1 - 0.4 * progress)
             
@@ -337,7 +356,6 @@ extension MoodPopupContanierView {
             let offsetY = max(0, translation.y)
             let velocityY = gesture.velocity(in: self).y
             
-            // критерий: либо сильно стянул вниз, либо быстрый свайп
             let shouldDismiss = offsetY > 140 || velocityY > 700
             
             if shouldDismiss {
@@ -352,7 +370,6 @@ extension MoodPopupContanierView {
                     self.onDismiss?()
                 })
             } else {
-                // возвращаемся обратно
                 UIView.animate(withDuration: 0.3,
                                delay: 0,
                                usingSpringWithDamping: 0.85,

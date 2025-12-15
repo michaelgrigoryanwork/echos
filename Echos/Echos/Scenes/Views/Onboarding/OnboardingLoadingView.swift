@@ -7,15 +7,16 @@
 
 import UIKit
 import SnapKit
+import Lottie
 
 final class OnboardingLoadingView: BaseView {
     // MARK: - Views
-    private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(
-            image: EchosImage.Onboarding.logo
-        )
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private lazy var logoAnimationView: LottieAnimationView = {
+        let animationView = LottieAnimationView(name: "logo_onboarding")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.0
+        return animationView
     }()
     
     private lazy var titleLabel: EchosLabel = {
@@ -60,13 +61,13 @@ final class OnboardingLoadingView: BaseView {
     override func setupViews() {
         super.setupViews()
         
-        addSubviews(logoImageView, titleLabel, subtitleLabel, loadingView)
+        addSubviews(logoAnimationView, titleLabel, subtitleLabel, loadingView)
     }
     
     override func setupConstraints() {
         super.setupConstraints()
         
-        logoImageView.snp.makeConstraints {
+        logoAnimationView.snp.makeConstraints {
             $0.top.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.top).inset(8.0)
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(titleLabel.snp.top)
@@ -88,6 +89,7 @@ final class OnboardingLoadingView: BaseView {
             loadingWidthConstraint = $0.width.equalTo(24.0).constraint
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(8.0)
         }
+        logoAnimationView.play()
     }
     
     // MARK: - Methods

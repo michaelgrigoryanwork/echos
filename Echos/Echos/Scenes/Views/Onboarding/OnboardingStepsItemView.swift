@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import Lottie
 
 final class OnboardingStepsItemView: BaseView {
     // MARK: - Views
-    private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private lazy var logoAnimationView: LottieAnimationView = {
+        let animationView = LottieAnimationView()
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.0
+        return animationView
     }()
     
     private lazy var titleLabel: EchosLabel = {
@@ -29,13 +32,13 @@ final class OnboardingStepsItemView: BaseView {
     override func setupViews() {
         super.setupViews()
         
-        addSubviews(logoImageView, titleLabel, subtitleLabel)
+        addSubviews(logoAnimationView, titleLabel, subtitleLabel)
     }
     
     override func setupConstraints() {
         super.setupConstraints()
         
-        logoImageView.snp.makeConstraints {
+        logoAnimationView.snp.makeConstraints {
             $0.top.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.top).inset(8.0)
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(titleLabel.snp.top).inset(-32.0)
@@ -50,10 +53,12 @@ final class OnboardingStepsItemView: BaseView {
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalToSuperview().inset(82.0)
         }
+        
     }
     
     func setupData(item: OnboardingStep?) {
-        logoImageView.image = item?.image
+        logoAnimationView.animation = LottieAnimation.named(item?.animationName ?? "")
+        logoAnimationView.play()
         titleLabel.update(
             echosLabelConfig: .init(
                 title: item?.title,

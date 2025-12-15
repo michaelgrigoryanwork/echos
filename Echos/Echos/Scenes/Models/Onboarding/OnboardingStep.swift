@@ -13,5 +13,5 @@ struct OnboardingStep {
     let title: String
     let titleHighlight: String
     let subtitle: String
-    let image: UIImage?
+    let animationName: String?
 }

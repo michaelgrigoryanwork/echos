@@ -5,6 +5,7 @@
 //  Created by Emma on 17.11.25.
 //
 import UIKit
+import Lottie
 
 final class EmotionalView: BaseView {
     
@@ -18,11 +19,12 @@ final class EmotionalView: BaseView {
         return button
     }()
     
-    private lazy var mainImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "emotional_background_icon")
-        return imageView
+    private lazy var animationLottiView: LottieAnimationView = {
+        let animationView = LottieAnimationView(name: "no_mood_animation")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 4
+        return animationView
     }()
     
     private lazy var descriptionLabel: UILabel = {
@@ -59,28 +61,30 @@ final class EmotionalView: BaseView {
         backgroundColor = .emotionalBackground
         layer.cornerRadius = 24
         clipsToBounds = true
-        addSubviews(settingsButton, mainImageView, descriptionLabel, contanierStack, moodClusterView, glassView)
+        addSubviews(settingsButton, animationLottiView, descriptionLabel, contanierStack, moodClusterView, glassView)
         settingsButton.snp.makeConstraints {
             $0.top.trailing.equalToSuperview().inset(12)
             $0.size.equalTo(32)
         }
-        mainImageView.snp.makeConstraints {
+        animationLottiView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(18)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
         
         moodClusterView.snp.makeConstraints {
-            $0.center.equalTo(mainImageView)
-            $0.size.equalTo(124)
+            $0.center.equalTo(animationLottiView)
+            $0.size.equalTo(animationLottiView)
         }
-        mainImageView.layoutIfNeeded()
+        animationLottiView.layoutIfNeeded()
         
         glassView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.leading.greaterThanOrEqualToSuperview().inset(24)
-            $0.top.equalToSuperview().inset(mainImageView.frame.height/2 + 74)
+            $0.top.equalToSuperview().inset(animationLottiView.frame.height/2 + 74)
         }
         glassView.isHidden = true
+        animationLottiView.play()
+        bringSubviewToFront(settingsButton)
     }
     
     //MARK: - Action
@@ -99,23 +103,25 @@ final class EmotionalView: BaseView {
             moodClusterView.isHidden = false
             contanierStack.snp.makeConstraints {
                 $0.centerX.equalToSuperview()
-                $0.top.equalTo(mainImageView.snp.bottom).offset(16)
+                $0.top.equalTo(animationLottiView.snp.bottom).offset(16)
                 $0.bottom.equalToSuperview().inset(30)
             }
             contanierStack.addArrangedSubviews(setupViewLabel(text: "Отлично!", font: EchosFont.helveticaMedium(size: 16).uiFont, textColor: .emotionalGoodGreenLight, viewBackgroundColor: .white.withAlphaComponent(0.5)))
             contanierStack.addArrangedSubviews(setupViewLabel(text: text, font: EchosFont.helveticaRegular(size: 14).uiFont, textColor: .echosBlack80, viewBackgroundColor: .clear))
             contanierStack.addArrangedSubviews(setupViewLabel(text: "Статистика", font: EchosFont.helveticaRegular(size: 14).uiFont, textColor: .echosBlack80, viewBackgroundColor: .white))
             moodClusterView.configure(with: model)
+            animationLottiView.isHidden = model.count != 0
             self.openedBubbleIndex = nil
             self.hideGlassView()
         } else {
+            animationLottiView.isHidden = model.count != 0
             contanierStack.snp.removeConstraints()
             descriptionLabel.snp.removeConstraints()
             descriptionLabel.isHidden = false
             contanierStack.isHidden = true
             moodClusterView.isHidden = true
             descriptionLabel.snp.makeConstraints {
-                $0.top.equalTo(mainImageView.snp.bottom).offset(16)
+                $0.top.equalTo(animationLottiView.snp.bottom).offset(16)
                 $0.leading.trailing.bottom.equalToSuperview().inset(30)
             }
         }
