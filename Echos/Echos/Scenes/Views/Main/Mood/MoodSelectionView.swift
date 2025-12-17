@@ -25,6 +25,15 @@ enum Mood: CaseIterable, Codable {
         }
     }
     
+    var animationName: String {
+        switch self {
+        case .bad:    return "bad_animation"
+        case .medium: return "medium_animation"
+        case .normal: return "normal_animation"
+        case .good:   return "good_animation"
+        case .great:  return "great_animation"
+        }
+    }
     var iconName: String {
         switch self {
         case .bad:    return "bag_emotional_icon"
@@ -264,7 +273,7 @@ final class MoodSelectionView: BaseView {
     }
 }
 
-// MARK: - Item (иконка + подпись)
+// MARK: - Item
 
 final class MoodSelectionItemView: UIControl {
     

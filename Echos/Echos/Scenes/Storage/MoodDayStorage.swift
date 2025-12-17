@@ -77,7 +77,7 @@ final class MoodDayStorage {
     }
     
     func canAddMood(on date: Date) -> Bool {
-        return moodsCount(for: date) < maxEntriesPerDay
+        return moodsCount(for: date) != 0
     }
     
     @discardableResult

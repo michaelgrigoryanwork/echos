@@ -93,7 +93,6 @@ final class DayStripCalendarView: UIView {
         
         monthView.calendarDataSource = self
         monthView.calendarDelegate = self
-        
         monthView.scrollDirection = .horizontal
         monthView.showsHorizontalScrollIndicator = false
         monthView.showsVerticalScrollIndicator = false
@@ -263,7 +262,6 @@ final class DayStripCell: JTACDayCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.isHidden = true
-        imageView.image = UIImage(named: "calendar_icon")
         return imageView
     }()
     
@@ -319,15 +317,18 @@ final class DayStripCell: JTACDayCell {
                    isToday: Bool,
                    hasStamp: Bool,
                    isWithinCurrentMonth: Bool) {
+        let models = MoodDayStorage.shared.moods(for: dayDate)
         
         weekdayLabel.text = weekday
         dayLabel.text = day
-        
+        if !models.isEmpty {
+            stampImageView.image = UIImage(named: models.last?.mood.animationName ?? "")
+        }
         
         if isWithinCurrentMonth {
             weekdayLabel.textColor = .echosBlack30
             dayLabel.textColor = .echosBlack80
-            stampImageView.isHidden = MoodDayStorage.shared.canAddMood(on: dayDate)
+            stampImageView.isHidden = !MoodDayStorage.shared.canAddMood(on: dayDate)
         } else {
             weekdayLabel.textColor = .echosBlack30
             dayLabel.textColor = .echosBlack30

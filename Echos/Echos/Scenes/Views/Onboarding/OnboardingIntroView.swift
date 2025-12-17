@@ -6,15 +6,17 @@
 //
 
 import UIKit
+import Lottie
 
 final class OnboardingIntroView: BaseView {
     // MARK: - Views
-    private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(
-            image: EchosImage.Onboarding.logo
-        )
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    
+    private lazy var logoAnimationView: LottieAnimationView = {
+        let animationView = LottieAnimationView(name: "logo_onboarding")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.0
+        return animationView
     }()
     
     private lazy var titleLabel: EchosLabel = {
@@ -57,13 +59,13 @@ final class OnboardingIntroView: BaseView {
     override func setupViews() {
         super.setupViews()
         
-        addSubviews(logoImageView, titleLabel, subtitleLabel, actionButton)
+        addSubviews(logoAnimationView, titleLabel, subtitleLabel, actionButton)
     }
     
     override func setupConstraints() {
         super.setupConstraints()
         
-        logoImageView.snp.makeConstraints {
+        logoAnimationView.snp.makeConstraints {
             $0.top.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.top).inset(8.0)
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(titleLabel.snp.top).inset(-48.0)
@@ -83,6 +85,8 @@ final class OnboardingIntroView: BaseView {
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(8.0)
         }
+        logoAnimationView.play()
+        
     }
 }
 
