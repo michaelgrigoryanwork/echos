@@ -122,7 +122,7 @@ final class HomeScreenViewController: BaseViewController {
     }
     
     private func setupClosure() {
-        homeScreenPhraseView.configure(messengers: [.appMessenger, .vk, .telegram, .whatsapp])
+        homeScreenPhraseView.configure(messengers: [.facebook, .tiktok, .telegram, .instagram])
         
         homeScreenPhraseView.onMessengerTap = { [weak self] type in
             guard let self else { return }

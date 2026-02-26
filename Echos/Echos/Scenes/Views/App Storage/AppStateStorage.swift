@@ -14,6 +14,7 @@ enum AuthProvider: String, Codable {
 
 struct UserSession: Codable {
     let userID: String
+    let middleName: String
     let name: String
     let email: String
     let provider: AuthProvider
@@ -65,8 +66,8 @@ final class AppStateStorage {
     
     // MARK: - Helpers
     
-    func setLoggedIn(userId: String, name: String, email: String, provider: AuthProvider) {
-        userSession = UserSession(userID: userId, name: name, email: email, provider: provider)
+    func setLoggedIn(userId: String, middleName: String, name: String, email: String, provider: AuthProvider) {
+        userSession = UserSession(userID: userId, middleName: middleName, name: name, email: email, provider: provider)
     }
     
     func logout() {

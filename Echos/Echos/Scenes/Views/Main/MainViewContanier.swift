@@ -20,6 +20,7 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.keyboardDismissMode = .interactive
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -36,7 +37,15 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
         label.textColor = .echosBlack
         label.font = EchosFont.helveticaMedium(size: 32).uiFont
         label.textAlignment = .left
+        label.numberOfLines = 0
         return label
+    }()
+    
+    private lazy var settingsButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "setting_logo_icon"), for: .normal)
+        button.addTarget(self, action: #selector(onSettingsTapped), for: .touchUpInside)
+        return button
     }()
     
     private let calendarView = DayStripCalendarView()
@@ -60,17 +69,22 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        scrollView.addSubviews(titleLabel)
-        scrollView.addSubviews(mainStackView)
+        scrollView.addSubviews(titleLabel, settingsButton, mainStackView)
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(12)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.centerX.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalTo(settingsButton.snp.leading).offset(8)
+        }
+        settingsButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(16)
+            $0.centerY.equalTo(titleLabel)
+            $0.size.equalTo(40)
         }
         mainStackView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(24)
+            $0.centerX.equalToSuperview()
         }
         mainStackView.addArrangedSubviews(calendarView, emotionalView, moodSelectionView, moodResultView, phraseOfDayView, meditationView)
         
@@ -156,11 +170,6 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
     }
     
     func setupClosure() {
-        emotionalView.settingsTrigger = { [weak self] in
-            guard let self else { return }
-            self.settingsTrigger?()
-        }
-        
         emotionalView.onBubbleTap = { [weak self] mood, index in
             guard let self else { return }
             
@@ -209,5 +218,10 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
             self.moodSelectionView.isHidden = true
             self.moodSelectionView.alpha = 1
         })
+    }
+    
+    // MARK: - Action
+    @objc private func onSettingsTapped() {
+        settingsTrigger?()
     }
 }

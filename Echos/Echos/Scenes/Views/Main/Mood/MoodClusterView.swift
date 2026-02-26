@@ -16,6 +16,13 @@ final class MoodClusterView: UIView {
     private let maxItems = 5
     
     var onBubbleTap: ((MoodModel, Int) -> Void)?
+    var onTapRecognizer: ((UITapGestureRecognizer) -> Void)?
+    
+    private lazy var backgroundTapRecognizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(handleBackgroundTap(_:)))
+        recognizer.cancelsTouchesInView = false
+        return recognizer
+    }()
     
     func configure(with moods: [MoodModel]) {
         clipsToBounds = false
@@ -49,6 +56,7 @@ final class MoodClusterView: UIView {
             bubbleButtons.append(bubbleButton)
         }
         setNeedsLayout()
+        addGestureRecognizer(backgroundTapRecognizer)
     }
     
     override func layoutSubviews() {
@@ -160,6 +168,10 @@ final class MoodClusterView: UIView {
         default:
             return []
         }
+    }
+    
+    @objc private func handleBackgroundTap(_ recognizer: UITapGestureRecognizer) {
+        onTapRecognizer?(recognizer)
     }
 }
 

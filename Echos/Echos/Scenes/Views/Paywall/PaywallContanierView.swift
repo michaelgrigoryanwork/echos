@@ -390,15 +390,12 @@ final class FreeDaysContanierViewElement: BaseView {
         addSubviews(stackView)
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(titleLabel)
-        
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
         imageView.snp.makeConstraints {
             $0.size.equalTo(61)
         }
-        
     }
 }
 
@@ -412,7 +409,7 @@ final class FeatureCheckRow: UIView {
     private let label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = EchosFont.helveticaRegular(size: 14).uiFont
+        label.font = EchosFont.helveticaRegular(size: 16).uiFont
         label.textColor = .echosBlack80
         label.textAlignment = .left
         return label
@@ -431,9 +428,8 @@ final class FeatureCheckRow: UIView {
     private func build() {
         addSubviews(iconImageView, label)
         iconImageView.snp.makeConstraints {
-            $0.leading.top.equalToSuperview()
-            $0.height.equalTo(20)
-            $0.width.equalTo(16)
+            $0.leading.equalToSuperview()
+            $0.centerY.equalTo(label)
         }
         label.snp.makeConstraints {
             $0.top.equalToSuperview()

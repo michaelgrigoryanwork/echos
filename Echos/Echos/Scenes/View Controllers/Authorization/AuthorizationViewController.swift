@@ -73,18 +73,37 @@ extension AuthorizationViewController: ASAuthorizationControllerDelegate, ASAuth
         controller.performRequests()
     }
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-            return
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+
+        guard let cred = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+
+        let userId = cred.user
+        let email = cred.email
+        let givenName = cred.fullName?.givenName
+        let familyName = cred.fullName?.familyName
+        if email != nil || givenName != nil || familyName != nil {
+            let profile = AppleCachedProfile(userId: userId,
+                                             givenName: givenName,
+                                             familyName: familyName,
+                                             email: email)
+            AppleProfileCache.shared.save(profile)
         }
+        let cached = AppleProfileCache.shared.load(userId: userId)
+
+        let finalEmail = email ?? cached?.email
+        let finalGiven = givenName ?? cached?.givenName
+        let finalFamily = familyName ?? cached?.familyName
         viewModel.loginWithApple(
-            userName: appleIDCredential.fullName?.familyName,
-            userId: appleIDCredential.user,
-            email: appleIDCredential.email
+            name: finalGiven,
+            userName: finalFamily,
+            userId: userId,
+            email: finalEmail
         ) { [weak self] in
             self?.showNextPage()
         }
     }
+
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("Apple Sign-In failed: \(error.localizedDescription)")
@@ -118,6 +137,7 @@ extension AuthorizationViewController {
             let displayName = fullName ?? givenName
 
             self?.viewModel.loginWithGoogle(
+                name: "",
                 userName: displayName,
                 userId: user.userID,
                 email: email
