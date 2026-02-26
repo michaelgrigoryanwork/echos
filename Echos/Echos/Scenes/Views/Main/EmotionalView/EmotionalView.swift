@@ -9,15 +9,7 @@ import Lottie
 
 final class EmotionalView: BaseView {
     
-    var settingsTrigger: (() -> Void)?
     var onBubbleTap: ((MoodModel, Int) -> Void)?
-    
-    private lazy var settingsButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "settings_icon"), for: .normal)
-        button.addTarget(self, action: #selector(settingsAction), for: .touchUpInside)
-        return button
-    }()
     
     private lazy var animationLottiView: LottieAnimationView = {
         let animationView = LottieAnimationView(name: "no_mood_animation")
@@ -46,31 +38,34 @@ final class EmotionalView: BaseView {
         stackView.alignment = .center
         return stackView
     }()
+    
+    private lazy var backgroundTapRecognizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(handleBackgroundTap(_:)))
+        recognizer.cancelsTouchesInView = false
+        return recognizer
+    }()
+    
     private let moodClusterView = MoodClusterView()
     private let glassView = GlassView()
     private var openedBubbleIndex: Int?
-
     
     override func setupViews() {
         super.setupViews()
         setupView()
         setupClosure()
+        addGestureRecognizer(backgroundTapRecognizer)
     }
     
     private func setupView() {
         backgroundColor = .emotionalBackground
         layer.cornerRadius = 24
         clipsToBounds = true
-        addSubviews(settingsButton, animationLottiView, descriptionLabel, contanierStack, moodClusterView, glassView)
-        settingsButton.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview().inset(12)
-            $0.size.equalTo(32)
-        }
+        addSubviews(animationLottiView, descriptionLabel, contanierStack, moodClusterView, glassView)
+        
         animationLottiView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(18)
             $0.leading.trailing.equalToSuperview().inset(30)
         }
-        
         moodClusterView.snp.makeConstraints {
             $0.center.equalTo(animationLottiView)
             $0.size.equalTo(animationLottiView)
@@ -84,14 +79,9 @@ final class EmotionalView: BaseView {
         }
         glassView.isHidden = true
         animationLottiView.play()
-        bringSubviewToFront(settingsButton)
     }
     
     //MARK: - Action
-    
-    @objc private func settingsAction() {
-        settingsTrigger?()
-    }
     
     func setupEmotionalView(isData: Bool, text: String, model: [MoodModel]) {
         if isData {
@@ -153,7 +143,7 @@ final class EmotionalView: BaseView {
             subview.removeFromSuperview()
         }
     }
-        
+    
     func setupClosure() {
         moodClusterView.onBubbleTap = { [weak self] mood, index in
             guard let self else { return }
@@ -169,6 +159,23 @@ final class EmotionalView: BaseView {
                 self.showGlassView()
             }
         }
+        moodClusterView.onTapRecognizer = { [weak self]  recognizer in
+            guard let self else { return }
+            guard self.openedBubbleIndex != nil else { return }
+            self.openedBubbleIndex = nil
+            self.hideGlassView()
+        }
+    }
+    
+    @objc private func handleBackgroundTap(_ recognizer: UITapGestureRecognizer) {
+        guard openedBubbleIndex != nil else { return }
+        let point = recognizer.location(in: self)
+        if let hitView = hitTest(point, with: nil) {
+            if hitView === glassView || hitView.isDescendant(of: glassView) { return }
+            if hitView.isDescendant(of: moodClusterView) { return }
+        }
+        openedBubbleIndex = nil
+        hideGlassView()
     }
     
     private func showGlassView() {
@@ -194,48 +201,5 @@ final class EmotionalView: BaseView {
         }, completion: { _ in
             self.glassView.isHidden = true
         })
-    }
-}
-
-final class GlassView: BaseView {
-    
-    private let blurView: UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .systemUltraThinMaterial)
-        let view = UIVisualEffectView(effect: effect)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let label: UILabel = {
-        let label = UILabel()
-        label.font = EchosFont.helveticaRegular(size: 12).uiFont
-        label.textColor = .echosBlack80
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    override func setupViews() {
-        super.setupViews()
-        backgroundColor = .clear
-        addSubviews(blurView, label)
-        blurView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        label.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(24)
-            $0.top.bottom.equalToSuperview().inset(12)
-        }
-        
-        blurView.backgroundColor = UIColor.white.withAlphaComponent(0.18)
-        layer.cornerRadius = 20
-        layer.masksToBounds = true
-        layer.borderColor = UIColor.white.withAlphaComponent(0.3).cgColor
-        layer.borderWidth = 1 / UIScreen.main.scale
-    }
-    
-    func setData(text: String) {
-        label.text = text
     }
 }

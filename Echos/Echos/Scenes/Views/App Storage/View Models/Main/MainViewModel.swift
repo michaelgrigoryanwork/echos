@@ -19,10 +19,7 @@ final class MainViewModel {
         print("Email:", provider?.userID ?? "нет email")
         print("Имя:", provider?.name ?? "нет имени")
         print("Email:", provider?.email ?? "нет email")
-        if let name = provider?.name {
-            return name + "!"
-        }
-        return ""
+        return "\(provider?.middleName ?? "") \(provider?.name ?? "") !"
     }
     
     func saveCommentAndEmotional(text: String, mood: Mood) {

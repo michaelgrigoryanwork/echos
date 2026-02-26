@@ -9,18 +9,18 @@ import UIKit
 
 final class HomeScreenPhraseView: BaseView {
     
-    enum MessengerType {
-        case appMessenger
-        case vk
+    enum MessengerType: Int {
         case telegram
-        case whatsapp
+        case facebook
+        case tiktok
+        case instagram
         
         var iconName: String {
             switch self {
-            case .appMessenger: return "vk_button_icon"
-            case .vk:           return "vk_button_icon"
-            case .telegram:     return "vk_button_icon"
-            case .whatsapp:     return "vk_button_icon"
+            case .telegram:    return "telegram_button_icon"
+            case .facebook:    return "facebook_button_icon"
+            case .tiktok:      return "tiktok_button_icon"
+            case .instagram:   return "instagram_button_icon"
             }
         }
     }
@@ -148,9 +148,10 @@ final class HomeScreenPhraseView: BaseView {
             messengerButtonStackView.removeArrangedSubview($0)
             $0.removeFromSuperview()
         }
-        messengerTypes = messengers
+        let sortedMessengers = messengers.sorted { $0.rawValue < $1.rawValue }
+        messengerTypes = sortedMessengers
         
-        for (index, type) in messengers.enumerated() {
+        for (index, type) in sortedMessengers.enumerated() {
             let button = UIButton()
             button.tag = index
             button.setImage(UIImage(named: type.iconName), for: .normal)

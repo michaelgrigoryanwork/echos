@@ -8,13 +8,45 @@
 import UIKit
 import Lottie
 
+enum PlayerBackgroundColor: CaseIterable {
+    case cream
+    case lavender
+    case mint
+    case peach
+    case pink
+    case sky
+    
+    var normalImage: UIImage? {
+        UIImage(named: "player_background_\(rawValue)")
+    }
+    
+    var selectedImage: UIImage? {
+        UIImage(named: "player_background_\(rawValue)_selected")
+    }
+}
+
+private extension PlayerBackgroundColor {
+    var rawValue: String {
+        switch self {
+        case .cream: return "cream"
+        case .lavender: return "lavender"
+        case .mint: return "mint"
+        case .peach: return "peach"
+        case .pink: return "pink"
+        case .sky: return "sky"
+        }
+    }
+}
+
 final class PlayerView: BaseView {
     
     var onPlayPauseTapped: (() -> Void)?
     var onPlaybackFinished: (() -> Void)?
+    private var currentBackground: PlayerBackgroundColor?
+    private var didSetInitialBackground = false
     
     private lazy var backgroundImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "player_background_image"))
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -38,16 +70,18 @@ final class PlayerView: BaseView {
     }()
     
     private lazy var playAnimationView: LottieAnimationView = {
-        let view = LottieAnimationView(name: "voise_paly_button")
-        view.loopMode = .loop
-        view.contentMode = .scaleAspectFit
+        let view = LottieAnimationView()
         return view
     }()
     
+    private lazy var playAndPousAnimationView: LottieAnimationView = {
+        let view = LottieAnimationView()
+        return view
+    }()
+    
+    
     private lazy var playAndPousButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "play_icon"), for: .normal)
-        button.setImage(UIImage(named: "pous_icon"), for: .selected)
         button.addTarget(self, action: #selector(playPauseButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -62,7 +96,7 @@ final class PlayerView: BaseView {
     }()
     
     private lazy var bottomAnimationView:  LottieAnimationView = {
-        let view = LottieAnimationView(name: "voice_line")
+        let view = LottieAnimationView(name: "wavestop")
         view.loopMode = .loop
         view.contentMode = .scaleAspectFit
         return view
@@ -74,12 +108,14 @@ final class PlayerView: BaseView {
     override func setupViews() {
         super.setupViews()
         setupView()
+        configureForNewTrack()
     }
     
     private func setupView() {
         addSubviews(backgroundImageView)
         addSubviews(titleLabel)
         addSubviews(playAnimationView)
+        addSubviews(playAndPousAnimationView)
         addSubviews(playAndPousButton)
         addSubviews(timeLabel)
         addSubviews(bottomAnimationView)
@@ -96,8 +132,12 @@ final class PlayerView: BaseView {
             $0.top.equalTo(titleLabel.snp.bottom)
             $0.centerX.equalToSuperview()
         }
+        playAndPousAnimationView.snp.makeConstraints {
+            $0.center.equalTo(playAnimationView)
+        }
         playAndPousButton.snp.makeConstraints {
             $0.center.equalTo(playAnimationView)
+            $0.size.equalTo(playAnimationView)
         }
         timeLabel.snp.makeConstraints {
             $0.top.equalTo(playAnimationView.snp.bottom)
@@ -107,6 +147,46 @@ final class PlayerView: BaseView {
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(24)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(200)
+        }
+        
+        DispatchQueue.main.async {
+            self.playAndPousLogik(isPlaying: self.isPlaying)
+        }
+    }
+    
+    func configureForTrack(id: String) {
+        let index = abs(id.hashValue) % PlayerBackgroundColor.allCases.count
+        currentBackground = PlayerBackgroundColor.allCases[index]
+        updateBackground(isPlaying: isPlaying)
+    }
+    
+    func configureForNewTrack() {
+        let randomColor = PlayerBackgroundColor.allCases.randomElement()
+        currentBackground = randomColor
+        updateBackground(isPlaying: isPlaying)
+    }
+    
+    private func setBackgroundImageAnimated(_ image: UIImage?) {
+        UIView.transition(
+            with: backgroundImageView,
+            duration: 0.35,
+            options: [.transitionCrossDissolve, .allowUserInteraction],
+            animations: {
+                self.backgroundImageView.image = image
+            },
+            completion: nil
+        )
+    }
+    
+    private func updateBackground(isPlaying: Bool) {
+        guard let bg = currentBackground else { return }
+        let image = isPlaying ? bg.selectedImage : bg.normalImage
+        
+        if didSetInitialBackground {
+            setBackgroundImageAnimated(image)
+        } else {
+            backgroundImageView.image = image
+            didSetInitialBackground = true
         }
     }
     
@@ -120,16 +200,46 @@ final class PlayerView: BaseView {
         isPlaying = playing
         playAndPousButton.isSelected = playing
         
-        if playing {
-            playAnimationView.play()
-            bottomAnimationView.play()
-        } else {
-            playAnimationView.pause()
-            bottomAnimationView.pause()
-        }
+        playAndPousLogik(isPlaying: playing)
     }
     
     func setTime(_ text: String) {
         timeLabel.text = text
+    }
+    
+    private func playAndPousLogik(isPlaying: Bool) {
+        updateBackground(isPlaying: isPlaying)
+        if isPlaying {
+            playAnimationView.animation = LottieAnimation.named("player_play")
+
+            playAnimationView.loopMode = .loop
+            playAnimationView.contentMode = .scaleAspectFit
+            playAnimationView.animationSpeed = 2
+            playAnimationView.play()
+            
+            playAndPousAnimationView.animation = LottieAnimation.named("play_pause")
+
+            playAndPousAnimationView.loopMode = .loop
+            playAndPousAnimationView.contentMode = .scaleAspectFit
+            playAndPousAnimationView.animationSpeed = 0.3
+            playAndPousAnimationView.play()
+            
+            bottomAnimationView.play()
+        } else {
+            playAnimationView.animation = LottieAnimation.named("player_waiting")
+
+            playAnimationView.loopMode = .loop
+            playAnimationView.contentMode = .scaleAspectFit
+            playAnimationView.animationSpeed = 2
+            playAnimationView.play()
+            
+            playAndPousAnimationView.animation = LottieAnimation.named("pause_play")
+            playAndPousAnimationView.loopMode = .loop
+            playAndPousAnimationView.contentMode = .scaleAspectFit
+            playAndPousAnimationView.animationSpeed = 0.3
+            playAndPousAnimationView.play()
+            
+            bottomAnimationView.pause()
+        }
     }
 }
