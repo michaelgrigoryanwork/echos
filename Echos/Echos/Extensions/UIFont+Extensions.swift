@@ -16,8 +16,6 @@ enum EchosFont {
     case unboundedBold(size: CGFloat)
     case unboundedSemiBold(size: CGFloat)
     case unboundedMedium(size: CGFloat)
-
-
     
     // MARK: - Properties
     var uiFont: UIFont {

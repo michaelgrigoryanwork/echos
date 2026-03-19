@@ -48,11 +48,22 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
         return button
     }()
     
-    private let calendarView = DayStripCalendarView()
+    private lazy var calendarView: DayStripCalendarView = {
+        let calendarView = DayStripCalendarView()
+        calendarView.delegate = self
+        calendarView.currentDate = Date()
+        calendarView.stampedDates = [Date()]
+        return calendarView
+    }()
+    
+    private lazy var phraseOfDayView: PhraseOfDayView = {
+        let view = PhraseOfDayView()
+        return view
+    }()
+
     private let emotionalView = EmotionalView()
     private let moodSelectionView = MoodSelectionView()
     private let moodResultView = MoodResultView()
-    private let phraseOfDayView = PhraseOfDayView()
     private let meditationView = MeditationView()
     
     // MARK: - Setup
@@ -61,14 +72,17 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
         
         setupView()
         setupClosure()
+        setupCurrentDateUI()
     }
     
     private func setupView() {
         backgroundColor = .mainBackground
+        
         addSubviews(scrollView)
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         scrollView.addSubviews(titleLabel, settingsButton, mainStackView)
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(12)
@@ -86,25 +100,16 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
             $0.bottom.equalToSuperview().inset(24)
             $0.centerX.equalToSuperview()
         }
+        
         mainStackView.addArrangedSubviews(calendarView, emotionalView, moodSelectionView, moodResultView, phraseOfDayView, meditationView)
-        
-        calendarView.delegate = self
-        calendarView.currentDate = Date()
-        
-        calendarView.stampedDates = [
-            Date()
-        ]
-        
+
         calendarView.snp.makeConstraints {
             $0.height.equalTo(60)
         }
-        setupCurrentDateUI()
     }
     
     private var selectionCalendarDate: Date?
     private let calendar = Calendar.current
-    
-    
     
     func calendarView(_ view: DayStripCalendarView, didSelect date: Date) {
         let hasMood = MoodDayStorage.shared.hasMood(on: date)
@@ -167,6 +172,13 @@ final class MainViewContanier: BaseView, DayStripCalendarViewDelegate {
     
     func setupName(name: String) {
         titleLabel.text = name
+    }
+    
+    func configurePhraseOfTheDay(phrase: Phrase?) {
+        if let phrase {
+            phraseOfDayView.configure(phrase: phrase)
+        }
+        phraseOfDayView.isHidden = phrase == nil
     }
     
     func setupClosure() {

@@ -28,7 +28,7 @@ final class AuthorizationView: BaseView {
     private lazy var titleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.Authorization.title,
+                title: EchosString.Authorization.title,
                 font: EchosFont.helveticaMedium(size: 32).uiFont,
                 textColor: .echosWhite,
                 textAlignment: .left
@@ -40,7 +40,7 @@ final class AuthorizationView: BaseView {
     private lazy var subtitleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.Authorization.subtitle,
+                title: EchosString.Authorization.subtitle,
                 font: EchosFont.helveticaMedium(size: 14).uiFont,
                 textColor: .echosWhite,
                 textAlignment: .left
@@ -58,7 +58,7 @@ final class AuthorizationView: BaseView {
     private lazy var loginOrRegisterLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.Authorization.loginOrRegister,
+                title: EchosString.Authorization.loginOrRegister,
                 font: EchosFont.helveticaMedium(size: 20).uiFont,
                 textColor: .echosWhite
             )
@@ -77,7 +77,7 @@ final class AuthorizationView: BaseView {
     private lazy var authWithGoogleButton: EchosButton = {
         let button = EchosButton(
             echosButtonState: .normal(
-                title: EchoesString.Authorization.authWithGoogle,
+                title: EchosString.Authorization.authWithGoogle,
                 image: EchosImage.Authorization.googleIcon,
                 config: .init(
                     borderWidth: 1.0,
@@ -94,7 +94,7 @@ final class AuthorizationView: BaseView {
     private lazy var authWithAppleButton: EchosButton = {
         let button = EchosButton(
             echosButtonState: .normal(
-                title: EchoesString.Authorization.authWithApple,
+                title: EchosString.Authorization.authWithApple,
                 image: EchosImage.Authorization.appleIcon,
                 config: .init(
                     borderWidth: 1.0,

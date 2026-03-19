@@ -14,7 +14,7 @@ extension String {
     }
 }
 
-struct EchoesString {
+struct EchosString {
     struct Onboarding {
         struct Intro {
             // MARK: - Properties

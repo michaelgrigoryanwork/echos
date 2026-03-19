@@ -22,7 +22,7 @@ final class OnboardingLoadingView: BaseView {
     private lazy var titleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.Onboarding.Loading.title,
+                title: EchosString.Onboarding.Loading.title,
                 font: EchosFont.unboundedBold(size: 54).uiFont,
                 textColor: .echosBlack
             )
@@ -33,7 +33,7 @@ final class OnboardingLoadingView: BaseView {
     private lazy var subtitleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.Onboarding.Loading.subtitle,
+                title: EchosString.Onboarding.Loading.subtitle,
                 font: EchosFont.unboundedBold(size: 16).uiFont,
                 textColor: .echosBlack
             )

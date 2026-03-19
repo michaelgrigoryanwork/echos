@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 
 final class PhraseOfDayView: BaseView {
-    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "emotional.phrase.title".localized()
@@ -35,20 +34,7 @@ final class PhraseOfDayView: BaseView {
     }()
     
     private let phraseLabel: EchosLabel = {
-        let label = EchosLabel(
-            echosLabelConfig: .init(
-                title: "Побеждают\nне идеальные\nа упорные.\nБудь\nупорным!",
-                font: EchosFont.unboundedSemiBold(size: 24).uiFont,
-                textColor: .echosBlack80,
-                textAlignment: .left
-            ),
-            echosLabelHighlightConfig: .init(
-                title: "Будь\nупорным!",
-                font: EchosFont.unboundedSemiBold(size: 24).uiFont,
-                textColor: .echosBlack,
-                textAlignment: .left
-            )
-        )
+        let label = EchosLabel()
         return label
     }()
     
@@ -90,8 +76,21 @@ final class PhraseOfDayView: BaseView {
     
     // MARK: - Public API
     
-    func configure(text: String) {
-        phraseLabel.text = text
+    func configure(phrase: Phrase) {
+        phraseLabel.update(
+            echosLabelConfig: .init(
+                title: phrase.message?.en,
+                font: EchosFont.unboundedSemiBold(size: 24).uiFont,
+                textColor: .echosBlack80,
+                textAlignment: .left
+            ),
+            echosLabelHighlightConfig: .init(
+                title: phrase.highlight?.en,
+                font: EchosFont.unboundedSemiBold(size: 24).uiFont,
+                textColor: .echosBlack,
+                textAlignment: .left
+            )
+        )
     }
 }
 
