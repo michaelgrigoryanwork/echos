@@ -32,8 +32,17 @@ struct Phrase: Codable {
 }
 
 struct PhraseMessage: Codable {
-    let en: String?
-    let ru: String?
+    private let en: String?
+    private let ru: String?
+    
+    func get(locale: Locale = .current) -> String? {
+        switch locale.language.languageCode {
+        case .russian:
+            return ru
+        default:
+            return en
+        }
+    }
     
     enum CodingKeys: CodingKey {
         case en

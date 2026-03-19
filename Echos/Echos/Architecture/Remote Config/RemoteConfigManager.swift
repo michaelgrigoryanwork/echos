@@ -38,7 +38,7 @@ private extension RemoteConfigManager {
     func storeRemoteConfigValues() {
         UDDatabaseHandler.ConfigKey.allCases.forEach { key in
             switch key {
-            case .phrases:
+            case .phrases, .phrasesOfDay:
                 let value: Data? = remoteConfigHandler.getValue(forKey: key.rawValue)
                 databaseHandler.storeValueInUD(value: value, key: key)
             }

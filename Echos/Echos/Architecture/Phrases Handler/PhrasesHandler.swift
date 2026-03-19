@@ -12,19 +12,28 @@ protocol PhrasesHandlerProtocol {
 }
 
 final class PhrasesHandler {
-    private var phrases: Phrases? {
-        return databaseHandler.getPhrases()
-    }
+    private(set) var phraseOfDay: PhraseOfDay?
     
     private let databaseHandler: PhrasesDatabaseHandlerProtocol
     
     init(databaseHandler: PhrasesDatabaseHandlerProtocol = PhrasesDatabaseHandler()) {
         self.databaseHandler = databaseHandler
+        retrieveData()
+    }
+    
+    private func retrieveData() {
+        let date = EchosDate(date: Date())
+        if databaseHandler.getPhraseOfDay(date) == nil, let phrase = databaseHandler.getPhrases()?.data.randomElement()  {
+            databaseHandler.storePhraseOfDay(
+                PhraseOfDay(date: date, phrase: phrase)
+            )
+        }
+        phraseOfDay = databaseHandler.getPhraseOfDay(date)
     }
 }
 
 extension PhrasesHandler: PhrasesHandlerProtocol {
     func getPhraseOfTheDay() -> Phrase? {
-        return phrases?.data.randomElement()
+        return phraseOfDay?.phrase
     }
 }

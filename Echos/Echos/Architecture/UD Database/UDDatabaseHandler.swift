@@ -33,5 +33,6 @@ extension UDDatabaseHandler: UDDatabaseHandlerProtocol {
 extension UDDatabaseHandler {
     enum ConfigKey: String, CaseIterable {
         case phrases = "phrases"
+        case phrasesOfDay = "phrases_of_day"
     }
 }

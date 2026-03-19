@@ -79,13 +79,13 @@ final class PhraseOfDayView: BaseView {
     func configure(phrase: Phrase) {
         phraseLabel.update(
             echosLabelConfig: .init(
-                title: phrase.message?.en,
+                title: phrase.message?.get(),
                 font: EchosFont.unboundedSemiBold(size: 24).uiFont,
                 textColor: .echosBlack80,
                 textAlignment: .left
             ),
             echosLabelHighlightConfig: .init(
-                title: phrase.highlight?.en,
+                title: phrase.highlight?.get(),
                 font: EchosFont.unboundedSemiBold(size: 24).uiFont,
                 textColor: .echosBlack,
                 textAlignment: .left
