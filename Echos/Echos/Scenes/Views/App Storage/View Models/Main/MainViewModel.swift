@@ -8,13 +8,14 @@
 import Foundation
 
 final class MainViewModel {
-    
-    init() {
-       
-    }
+    private let phraseHandler: PhrasesHandlerProtocol
     
     let provider = AppStateStorage.shared.userSession
     
+    init(phraseHandler: PhrasesHandlerProtocol = PhrasesHandler()) {
+        self.phraseHandler = phraseHandler
+    }
+        
     func returnUserName() -> String {
         print("Email:", provider?.userID ?? "нет email")
         print("Имя:", provider?.name ?? "нет имени")
@@ -37,3 +38,8 @@ final class MainViewModel {
     }
 }
 
+extension MainViewModel {
+    var phraseOfTheDay: Phrase? {
+        return phraseHandler.getPhraseOfTheDay()
+    }
+}

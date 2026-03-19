@@ -22,12 +22,12 @@ final class OnboardingIntroView: BaseView {
     private lazy var titleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.Onboarding.Intro.title,
+                title: EchosString.Onboarding.Intro.title,
                 font: EchosFont.unboundedBold(size: 24).uiFont,
                 textColor: .echosBlack80
             ),
             echosLabelHighlightConfig: .init(
-                title: EchoesString.Onboarding.Intro.titleHighlight,
+                title: EchosString.Onboarding.Intro.titleHighlight,
                 font: EchosFont.unboundedBold(size: 22).uiFont,
                 textColor: .echosViolet
             )
@@ -38,7 +38,7 @@ final class OnboardingIntroView: BaseView {
     private lazy var subtitleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.Onboarding.Intro.subtitle,
+                title: EchosString.Onboarding.Intro.subtitle,
                 font: EchosFont.helveticaRegular(size: 16).uiFont,
                 textColor: .echosBlack80
             )
@@ -49,7 +49,7 @@ final class OnboardingIntroView: BaseView {
     private lazy var actionButton: EchosButton = {
         let button = EchosButton(
             echosButtonState: .normal(
-                title: EchoesString.Onboarding.Intro.buttonTitle,
+                title: EchosString.Onboarding.Intro.buttonTitle,
             )
         )
         return button

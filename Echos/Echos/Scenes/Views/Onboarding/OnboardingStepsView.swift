@@ -31,7 +31,7 @@ final class OnboardingStepsView: BaseView {
     private lazy var actionButton: EchosButton = {
         let button = EchosButton(
             echosButtonState: .normal(
-                title: EchoesString.Onboarding.Steps.buttonTitle,
+                title: EchosString.Onboarding.Steps.buttonTitle,
             )
         )
         return button

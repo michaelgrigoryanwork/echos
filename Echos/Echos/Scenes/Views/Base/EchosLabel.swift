@@ -74,7 +74,7 @@ private extension EchosLabel {
             ]
         )
         
-        if let echosLabelHighlightConfig {
+        if let echosLabelHighlightConfig, !highlightTitle.isEmpty {
             let range = (title as NSString).range(of: highlightTitle)
             attributedText.addAttributes(
                 [

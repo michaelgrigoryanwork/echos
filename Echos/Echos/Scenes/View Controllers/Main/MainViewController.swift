@@ -42,8 +42,8 @@ class MainViewController: BaseViewController {
         setInAppStorage()
         setupClosure()
         setupNotificationCenter()
+        configureData()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -111,5 +111,11 @@ class MainViewController: BaseViewController {
     
     private func handleMood(_ mood: Mood, text: String?) {
         hendlingOnTapSendButton(mood: mood, text: text ?? "")
+    }
+}
+
+extension MainViewController {
+    func configureData() {
+        contentView.configurePhraseOfTheDay(phrase: viewModel.phraseOfTheDay)
     }
 }
