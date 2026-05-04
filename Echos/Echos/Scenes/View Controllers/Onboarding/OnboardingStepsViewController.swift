@@ -11,18 +11,27 @@ final class OnboardingStepsViewController: BaseViewController {
     // MARK: - Views
     private lazy var contentView: OnboardingStepsView = {
         let view = OnboardingStepsView()
-        view.onActionButtonTap { [weak self] in
-
+        view.onActionButtonTap { [weak self] index in
+            if self?.viewModel.isLastStep == true {
+                self?.showNextPage()
+            } else {
+                self?.viewModel.selectStep(index: index) {
+                    self?.contentView.selectNextStep()
+                }
+            }
+        }
+        view.onSegmentedProgressBarHighlightChanged { [weak self] index in
+            self?.viewModel.selectStep(index: index)
         }
         return view
     }()
     
     // MARK: - Properties
-    private let viewModel: OnboardingStepsViewModel
+    private let viewModel: OnboardingStepsViewModelProtocol
     
     // MARK: - Init
     
-    init(viewModel: OnboardingStepsViewModel) {
+    init(viewModel: OnboardingStepsViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -43,5 +52,42 @@ final class OnboardingStepsViewController: BaseViewController {
     
     override func setupConstraints() {
         super.setupConstraints()
+    }
+    
+    override func setupData() {
+        super.setupData()
+        contentView.setupData(
+            items: viewModel.getSteps(),
+            totalSegmentsCount: viewModel.getSteps().count
+        )
+    }
+    
+    override func setupCallback() {
+        super.setupCallback()
+    }
+}
+
+// MARK: - Navigation
+private extension OnboardingStepsViewController {
+    func showNextPage() {
+        guard !SubscriptionHandler.shared.hasPremiumAccess else {
+            let vc = VCFactory.onboardingLoading()
+            push(vc)
+            return
+        }
+        UIApplication.shared.showLoading(true)
+        Task {
+            let hasAtLeastOneAvailableIntro = await PaywallModel.getTrialProduct() != nil
+            await MainActor.run {
+                UIApplication.shared.showLoading(false)
+            }
+            if hasAtLeastOneAvailableIntro {
+                let vc = VCFactory.trialPaywallViewController()
+                push(vc)
+            } else {
+                let vc = VCFactory.paywallPlansViewController()
+                push(vc)
+            }
+        }
     }
 }

@@ -14,6 +14,8 @@ enum EchosFont {
     case helveticaBold(size: CGFloat)
     
     case unboundedBold(size: CGFloat)
+    case unboundedSemiBold(size: CGFloat)
+    case unboundedMedium(size: CGFloat)
     
     // MARK: - Properties
     var uiFont: UIFont {
@@ -26,6 +28,10 @@ enum EchosFont {
             return .init(name: "HelveticaNeue-Bold", size: size) ?? .systemFont(ofSize: size, weight: .bold)
         case .unboundedBold(size: let size):
             return .init(name: "Unbounded-Bold", size: size) ?? .systemFont(ofSize: size, weight: .bold)
+        case .unboundedSemiBold(size: let size):
+            return .init(name: "Unbounded-SemiBold", size: size) ?? .systemFont(ofSize: size, weight: .semibold)
+        case .unboundedMedium(size: let size):
+            return .init(name: "Unbounded-Medium", size: size) ?? .systemFont(ofSize: size, weight: .semibold)
         }
     }
 }

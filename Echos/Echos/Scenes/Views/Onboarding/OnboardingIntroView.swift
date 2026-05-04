@@ -6,26 +6,28 @@
 //
 
 import UIKit
+import Lottie
 
 final class OnboardingIntroView: BaseView {
     // MARK: - Views
-    private lazy var logoImageView: UIImageView = {
-        let imageView = UIImageView(
-            image: EchosImage.OnboardingIntro.logo
-        )
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    
+    private lazy var logoAnimationView: LottieAnimationView = {
+        let animationView = LottieAnimationView(name: "logo_onboarding")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.0
+        return animationView
     }()
     
     private lazy var titleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.OnboardingIntro.title,
+                title: EchosString.Onboarding.Intro.title,
                 font: EchosFont.unboundedBold(size: 24).uiFont,
                 textColor: .echosBlack80
             ),
             echosLabelHighlightConfig: .init(
-                title: EchoesString.OnboardingIntro.titleHighlight,
+                title: EchosString.Onboarding.Intro.titleHighlight,
                 font: EchosFont.unboundedBold(size: 22).uiFont,
                 textColor: .echosViolet
             )
@@ -36,7 +38,7 @@ final class OnboardingIntroView: BaseView {
     private lazy var subtitleLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: EchoesString.OnboardingIntro.subtitle,
+                title: EchosString.Onboarding.Intro.subtitle,
                 font: EchosFont.helveticaRegular(size: 16).uiFont,
                 textColor: .echosBlack80
             )
@@ -47,7 +49,7 @@ final class OnboardingIntroView: BaseView {
     private lazy var actionButton: EchosButton = {
         let button = EchosButton(
             echosButtonState: .normal(
-                title: EchoesString.OnboardingIntro.buttonTitle,
+                title: EchosString.Onboarding.Intro.buttonTitle,
             )
         )
         return button
@@ -57,13 +59,13 @@ final class OnboardingIntroView: BaseView {
     override func setupViews() {
         super.setupViews()
         
-        addSubviews(logoImageView, titleLabel, subtitleLabel, actionButton)
+        addSubviews(logoAnimationView, titleLabel, subtitleLabel, actionButton)
     }
     
     override func setupConstraints() {
         super.setupConstraints()
         
-        logoImageView.snp.makeConstraints {
+        logoAnimationView.snp.makeConstraints {
             $0.top.greaterThanOrEqualTo(safeAreaLayoutGuide.snp.top).inset(8.0)
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(titleLabel.snp.top).inset(-48.0)
@@ -83,6 +85,8 @@ final class OnboardingIntroView: BaseView {
             $0.leading.trailing.equalToSuperview().inset(16.0)
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(8.0)
         }
+        logoAnimationView.play()
+        
     }
 }
 

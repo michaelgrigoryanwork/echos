@@ -9,14 +9,27 @@ import UIKit
 
 struct EchosImage {
     struct Main {
-        static var navigationBack = UIImage(named: "Main.navigationBack")
+        // MARK: - Properties
+        static let navigationBack = UIImage(named: "Main.navigationBack")
+        static let navigationRightIcon = UIImage(named: "logo_small_navigation")
     }
     
-    struct OnboardingIntro {
-        static var logo = UIImage(named: "OnboardingIntro.logo")
+    struct Onboarding{
+        // MARK: - Properties
+        static let logo = UIImage(named: "Onboarding.logo")
+        
+        struct Steps {
+            // MARK: - Properties
+            static let logoOne = UIImage(named: "OnboardingSteps.logoOne")
+            static let logoTwo = UIImage(named: "OnboardingSteps.logoTwo")
+            static let logoThree = UIImage(named: "OnboardingSteps.logoThree")
+            static let logoFour = UIImage(named: "OnboardingSteps.logoFour")
+        }
     }
     
-    struct OnboardingSteps {
-        static let logoOne = UIImage(named: "OnboardingSteps.logoOne")
+    struct Authorization {
+        // MARK: - Properties
+        static let appleIcon = UIImage(named: "Authorization.appleIcon")
+        static let googleIcon = UIImage(named: "Authorization.googleIcon")
     }
 }
