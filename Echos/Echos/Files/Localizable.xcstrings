@@ -661,13 +661,13 @@
         }
       }
     },
-    "OnboardingPaywall.ribbon.try7daysFree" : {
+    "OnboardingPaywall.ribbon.tryDaysFree" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Try 7 days free"
+            "value" : "Try %d days free"
           }
         }
       }
@@ -711,7 +711,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Try 7 days free, then $9.99/month"
+            "value" : "Try %d days free, then %@"
           }
         }
       }

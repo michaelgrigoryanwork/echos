@@ -7,10 +7,11 @@
 
 import Foundation
 import UIKit
+import ApphudSDK
 
-final class PaywallContainerView: BaseView {
+final class TrialPaywallContainerView: BaseView {
+    var actionButtonTrigger: (() -> Void)?
     
-    var tryFreeTrigger: (() -> Void)?
     var viewOthersTrigger: (() -> Void)?
     var termsAndConditionsTrigger: (() -> Void)?
     var restorPurchasesTrigger: (() -> Void)?
@@ -76,7 +77,6 @@ final class PaywallContainerView: BaseView {
         return stackView
     }()
     
-    
     private var item1 = FreeDaysContanierViewElement(
         image: UIImage(named: "record_paywall_icon") ?? UIImage(),
         title: "OnboardingPaywall.bullet1".localized()
@@ -87,18 +87,19 @@ final class PaywallContainerView: BaseView {
         title: "OnboardingPaywall.bullet2".localized()
     )
     
-    private lazy var tryFree7DaysLabel: UILabel = {
+    private lazy var tryFreeDaysLabel: UILabel = {
         let label = UILabel()
-        label.text = "OnboardingPaywall.ribbon.try7daysFree".localized()
+        label.text = " "
         label.font = EchosFont.unboundedBold(size: 18).uiFont
         label.textColor = .black
+        label.isHidden = true
         return label
     }()
     
     private lazy var tryfreeDaysView: UIView = {
         let view = UIView()
         view.backgroundColor = .daysFree
-        view.addSubview(tryFree7DaysLabel)
+        view.addSubview(tryFreeDaysLabel)
         return view
     }()
     
@@ -141,16 +142,17 @@ final class PaywallContainerView: BaseView {
     private lazy var priceLabel: EchosLabel = {
         let label = EchosLabel(
             echosLabelConfig: .init(
-                title: "Try 7 days free, then $9,99/month".localized(),
+                title: " ".localized(),
                 font: EchosFont.unboundedSemiBold(size: 14).uiFont,
                 textColor: .echosBlack,
             ),
             echosLabelHighlightConfig: .init(
-                title: "Try 7 days free",
+                title: " ",
                 font: EchosFont.unboundedSemiBold(size: 14).uiFont,
                 textColor: .echosViolet,
             )
         )
+        label.isHidden = true
         return label
     }()
     
@@ -174,7 +176,6 @@ final class PaywallContainerView: BaseView {
     
     private let tryFreeButton: UIButton = {
         let button = UIButton()
-        button.setTitle("OnboardingPaywall.cta.tryFree".localized(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = EchosFont.helveticaMedium(size: 16).uiFont
         button.backgroundColor = .echosBlack
@@ -210,6 +211,49 @@ final class PaywallContainerView: BaseView {
     }()
     
     // MARK: - Setup
+    func setData(selectedProduct: ApphudProduct?) {
+        guard let selectedProduct else {
+            return
+        }
+        Task {
+            guard let product = try await selectedProduct.product() else {
+                return
+            }
+            let subscriptionOffer = PaywallModel.getSubscriptionOffer(product: product)
+            let days = subscriptionOffer?.period.value ?? 7
+            let title = String(
+                format: "OnboardingPaywall.trialThenPrice".localized(),
+                days,
+                PaywallModel.getSubscriptionDisplayPrice(product: product) ?? ""
+            )
+            let highlight = String(
+                format: "OnboardingPaywall.ribbon.tryDaysFree".localized(),
+                days
+            )
+            priceLabel.update(
+                echosLabelConfig: .init(
+                    title: title,
+                    font: EchosFont.unboundedSemiBold(size: 14).uiFont,
+                    textColor: .echosBlack,
+                ),
+                echosLabelHighlightConfig: .init(
+                    title: highlight,
+                    font: EchosFont.unboundedSemiBold(size: 14).uiFont,
+                    textColor: .echosViolet,
+                )
+            )
+            priceLabel.isHidden = false
+            
+            tryFreeButton.setTitle("OnboardingPaywall.cta.tryFree".localized(), for: .normal)
+            
+            tryFreeDaysLabel.text = String(
+                format: "OnboardingPaywall.ribbon.tryDaysFree".localized(),
+                days
+            )
+            tryFreeDaysLabel.isHidden = false
+        }
+    }
+    
     override func setupViews() {
         super.setupViews()
         
@@ -255,7 +299,7 @@ final class PaywallContainerView: BaseView {
             $0.edges.equalToSuperview().inset(24)
         }
         
-        tryFree7DaysLabel.snp.makeConstraints {
+        tryFreeDaysLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(26)
             $0.top.bottom.equalToSuperview().inset(4)
         }
@@ -331,7 +375,7 @@ final class PaywallContainerView: BaseView {
     }
     
     @objc private func tryFreeAction() {
-        tryFreeTrigger?()
+        actionButtonTrigger?()
     }
     
     @objc private func restorePurchasesAction() {
@@ -348,7 +392,6 @@ final class PaywallContainerView: BaseView {
 }
 
 final class FreeDaysContanierViewElement: BaseView {
-    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -383,7 +426,6 @@ final class FreeDaysContanierViewElement: BaseView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     private func setupView() {
         backgroundColor = .clear

@@ -10,37 +10,35 @@ import UIKit
 // MARK: - Loading indicator
 extension UIApplication {
     func showLoading(_ show: Bool) {
-        DispatchQueue.main.async {
-            guard let topVC = UIApplication.getTopViewController() else { return }
-            if show {
-                guard !topVC.view.subviews.contains(where: {
-                    $0.isKind(of: DimmedView.self)
-                }) else {
-                    topVC.view.subviews.forEach {
-                        if $0.isKind(of: DimmedView.self) {
-                            $0.removeFromSuperview()
-                        }
-                    }
-                    return
-                }
-
-                let loadingView = self.createLoadingView()
-                loadingView.layoutIfNeeded()
-                topVC.view.addSubview(loadingView)
-
-                loadingView.snp.makeConstraints {
-                    $0.edges.equalToSuperview()
-                }
-            } else {
-                UIApplication.shared.currentWindow?.subviews.forEach {
-                    if $0.isKind(of: DimmedView.self) {
-                        $0.removeFromSuperview()
-                    }
-                }
+        guard let topVC = UIApplication.getTopViewController() else { return }
+        if show {
+            guard !topVC.view.subviews.contains(where: {
+                $0.isKind(of: DimmedView.self)
+            }) else {
                 topVC.view.subviews.forEach {
                     if $0.isKind(of: DimmedView.self) {
                         $0.removeFromSuperview()
                     }
+                }
+                return
+            }
+
+            let loadingView = self.createLoadingView()
+            loadingView.layoutIfNeeded()
+            topVC.view.addSubview(loadingView)
+
+            loadingView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        } else {
+            UIApplication.shared.currentWindow?.subviews.forEach {
+                if $0.isKind(of: DimmedView.self) {
+                    $0.removeFromSuperview()
+                }
+            }
+            topVC.view.subviews.forEach {
+                if $0.isKind(of: DimmedView.self) {
+                    $0.removeFromSuperview()
                 }
             }
         }

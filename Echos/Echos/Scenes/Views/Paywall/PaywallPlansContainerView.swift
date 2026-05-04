@@ -140,6 +140,15 @@ final class PaywallPlansContainerView: BaseView {
             guard let priceView = view as? PriceContainerView else { return }
             priceView.isSelected = priceView.product?.productId == product.productId
         }
+        
+        if let product = product.skProduct {
+            Task {
+                let isIntroAvailable = await PaywallModel.isIntroAvailable(product: product)
+                actionButton.setTitle(isIntroAvailable ? "OnboardingPaywall.cta.tryFree".localized() : "Paywall.subscribe".localized(), for: .normal)
+            }
+        } else {
+            actionButton.setTitle("OnboardingPaywall.cta.tryFree".localized(), for: .normal)
+        }
     }
     
     override func setupViews() {

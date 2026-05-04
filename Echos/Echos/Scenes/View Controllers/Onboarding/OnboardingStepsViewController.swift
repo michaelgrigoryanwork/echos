@@ -70,8 +70,24 @@ final class OnboardingStepsViewController: BaseViewController {
 // MARK: - Navigation
 private extension OnboardingStepsViewController {
     func showNextPage() {
-//        let vc = VCFactory.onboardingLoading()
-        let vc = VCFactory.paywallViewController()
-        push(vc)
+        guard !SubscriptionHandler.shared.hasPremiumAccess else {
+            let vc = VCFactory.onboardingLoading()
+            push(vc)
+            return
+        }
+        UIApplication.shared.showLoading(true)
+        Task {
+            let hasAtLeastOneAvailableIntro = await PaywallModel.getTrialProduct() != nil
+            await MainActor.run {
+                UIApplication.shared.showLoading(false)
+            }
+            if hasAtLeastOneAvailableIntro {
+                let vc = VCFactory.trialPaywallViewController()
+                push(vc)
+            } else {
+                let vc = VCFactory.paywallPlansViewController()
+                push(vc)
+            }
+        }
     }
 }

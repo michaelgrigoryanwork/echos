@@ -35,9 +35,9 @@ final class VCFactory {
     }
     
     //MARK: - Paywall
-    static func paywallViewController() -> PaywallViewController {
-        let vm = PaywallViewModel()
-        let vc = PaywallViewController(viewModel: vm)
+    static func trialPaywallViewController() -> TrialPaywallViewController {
+        let vm = TrialPaywallViewModel()
+        let vc = TrialPaywallViewController(viewModel: vm)
         return vc
     }
     

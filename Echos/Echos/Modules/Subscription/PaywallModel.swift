@@ -72,14 +72,34 @@ extension PaywallModel {
         }
         return "\(weeklyDisplayPrice)/\("Paywall.week".localized())"
     }
-    
+
     static func isIntroAvailable(product: SKProduct) async -> Bool {
-        let isIntroAvailable: Bool = await withCheckedContinuation { continuation in
+        await withCheckedContinuation { continuation in
             Apphud.checkEligibilityForIntroductoryOffer(product: product) { available in
                 continuation.resume(returning: available)
             }
         }
-        return isIntroAvailable
+    }
+    
+    static func getTrialProduct() async -> ApphudProduct? {
+        let placement = await SubscriptionHandler.shared.getPlacement(for: .onboarding)
+        guard let products = placement?.paywall?.products else {
+            return nil
+        }
+        for apphudProduct in products {
+            guard let skProduct = apphudProduct.skProduct else {
+                continue
+            }
+            let available = await isIntroAvailable(product: skProduct)
+            if available {
+                return apphudProduct
+            }
+        }
+        return nil
+    }
+    
+    static func getSubscriptionOffer(product: Product) -> Product.SubscriptionOffer? {
+        return product.subscription?.introductoryOffer
     }
 }
 

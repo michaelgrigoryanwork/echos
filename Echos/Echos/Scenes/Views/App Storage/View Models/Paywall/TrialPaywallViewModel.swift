@@ -1,15 +1,14 @@
 //
-//  PaywallPlansViewModel.swift
+//  TrialPaywallViewModel.swift
 //  Echos
 //
-//  Created by Emma on 13.11.25.
+//  Created by Emma on 10.11.25.
 //
 
 import Foundation
 import ApphudSDK
 
-final class PaywallPlansViewModel {
-    @Published private(set) var paywallModel: PaywallModelProtocol?
+final class TrialPaywallViewModel {
     @Published private(set) var selectedProduct: ApphudProduct?
     @Published private(set) var purchaseResult: ApphudPurchaseResult?
     @Published private(set) var isPurchaseInProcess: Bool = false
@@ -24,12 +23,12 @@ final class PaywallPlansViewModel {
     ) {
         self.subscriptionHandler = subscriptionHandler
         Task {
-            await getPlacement()
+            await getTrialProduct()
         }
     }
 }
 
-extension PaywallPlansViewModel {
+extension TrialPaywallViewModel {
     func selectProduct(_ product: ApphudProduct) {
         selectedProduct = product
     }
@@ -72,13 +71,10 @@ extension PaywallPlansViewModel {
     }
 }
 
-private extension PaywallPlansViewModel {
-    func getPlacement() async {
-        placement = await subscriptionHandler.getPlacement(for: .onboarding)
-        let model = PaywallModel.init(placement: placement)
-        if let firstProduct = model?.products?.first {
-            selectProduct(firstProduct)
+private extension TrialPaywallViewModel {
+    func getTrialProduct() async {
+        if let trialProduct = await PaywallModel.getTrialProduct() {
+            selectProduct(trialProduct)
         }
-        paywallModel = model
     }
 }
