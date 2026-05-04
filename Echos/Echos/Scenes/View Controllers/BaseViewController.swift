@@ -97,4 +97,13 @@ extension BaseViewController {
         label.sizeToFit()
         navigationItem.titleView = label
     }
+    
+    func showAlert(error: Error) {
+        let alertController = UIAlertController(title: "Error.title".localized(),
+                                                message: error.localizedDescription,
+                                                preferredStyle: UIDevice.current.userInterfaceIdiom == .pad ? .actionSheet : .alert)
+        let okAction = UIAlertAction(title: "Error.ok".localized(), style: .default)
+        alertController.addAction(okAction)
+        present(alertController, animated: true)
+    }
 }

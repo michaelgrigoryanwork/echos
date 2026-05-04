@@ -6,15 +6,17 @@
 //
 
 import UIKit
+import Combine
 
 class PaywallPlansViewController: BaseViewController {
-    
-    private lazy var contentView: PaywallPlansContanieView = {
-        let view = PaywallPlansContanieView()
+    private lazy var contentView: PaywallPlansContainerView = {
+        let view = PaywallPlansContainerView()
+        view.backgroundColor = .echosBeige
         return view
     }()
     
     // MARK: - Properties
+    private var cancellables: Set<AnyCancellable> = .init()
     private let viewModel: PaywallPlansViewModel
     
     // MARK: - Init
@@ -36,17 +38,71 @@ class PaywallPlansViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .echosBeige
-        contentView.backgroundColor = .echosBeige
         setupNavigationRightBar()
-        setupClosure()
+        bindContentView()
+        bindViewModel()
     }
     
+    private func bindViewModel() {
+        viewModel.$paywallModel
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] paywallModel in
+                guard let self, let paywallModel else {
+                    return
+                }
+                self.contentView.setData(
+                    paywallModel: paywallModel,
+                    selectedProduct: self.viewModel.selectedProduct
+                )
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$selectedProduct
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] product in
+                guard let self, let product, self.viewModel.paywallModel != nil else {
+                    return
+                }
+                self.contentView.selectProduct(product: product)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$purchaseResult
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let self, let result else {
+                    return
+                }
+                if let error = result.error {
+                    self.showAlert(error: error)
+                } else {
+                    self.showNextPage()
+                }
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$isPurchaseInProcess
+            .receive(on: DispatchQueue.main)
+            .sink { isPurchaseInProcess in
+                UIApplication.shared.showLoading(isPurchaseInProcess)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$purchaseError
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                guard let self, let error else {
+                    return
+                }
+                self.showAlert(error: error)
+            }
+            .store(in: &cancellables)
+    }
     
-    private func setupClosure() {
-        contentView.tryFreeTrigger = { [weak self] in
+    private func bindContentView() {
+        contentView.actionButtonTrigger = { [weak self] in
             guard let self else { return }
-            let vc = VCFactory.onboardingLoading()
-            push(vc)
+            self.viewModel.purchaseSubscription()
         }
         
         contentView.termsAndConditionsTrigger = { [weak self] in
@@ -56,13 +112,25 @@ class PaywallPlansViewController: BaseViewController {
         
         contentView.restorPurchasesTrigger = { [weak self] in
             guard let self else { return }
-            
+            self.viewModel.restoreSubscription()
         }
         
         contentView.privacyPolicyTrigger = { [weak self] in
             guard let self else { return }
             
         }
+        
+        contentView.productSelectTrigger = { [weak self] product in
+            guard let self, let product else { return }
+            self.viewModel.selectProduct(product)
+            self.contentView.selectProduct(product: product)
+        }
     }
-    
+}
+
+private extension PaywallPlansViewController {
+    func showNextPage() {
+        let vc = VCFactory.onboardingLoading()
+        push(vc)
+    }
 }

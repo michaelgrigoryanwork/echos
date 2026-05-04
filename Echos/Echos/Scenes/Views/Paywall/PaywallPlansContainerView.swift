@@ -1,15 +1,19 @@
 //
-//  PaywallPlansContanieView.swift
+//  PaywallPlansContainerView.swift
 //  Echos
 //
 //  Created by Emma on 13.11.25.
 //
 
 import UIKit
+import ApphudSDK
 
-final class PaywallPlansContanieView: BaseView {
+final class PaywallPlansContainerView: BaseView {
 
-    var tryFreeTrigger: (() -> Void)?
+    var actionButtonTrigger: (() -> Void)?
+    
+    var productSelectTrigger: ((ApphudProduct?) -> Void)?
+    
     var termsAndConditionsTrigger: (() -> Void)?
     var restorPurchasesTrigger: (() -> Void)?
     var privacyPolicyTrigger: (() -> Void)?
@@ -35,26 +39,14 @@ final class PaywallPlansContanieView: BaseView {
         text: "OnboardingPaywall.feature.gentlePhrasesSupport".localized()
     )
     
-    private lazy var centerStackView: UIStackView = {
+    private lazy var productsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 16
         stackView.alignment = .fill
         return stackView
     }()
-    
-    private var monthlyItem = PriceContanieView(
-        titleText: "OnboardingPaywall.plan.monthly".localized(), mainPrise: "$9,99/month", secondPrice: "$2,49/week"
-    )
-    
-    private var annualItem = PriceContanieView(
-        titleText: "OnboardingPaywall.plan.annual".localized(), mainPrise: "$49,99/yearly", secondPrice: "$1,04/week"
-    )
-    
-    private var lifetimeItem = PriceContanieView(
-        titleText: "OnboardingPaywall.plan.lifetime".localized(), mainPrise: "$69,99", secondPrice: ""
-    )
-    
+
     private lazy var noPressureLabel: UILabel = {
         let label = UILabel()
         label.font = EchosFont.helveticaRegular(size: 14).uiFont
@@ -65,15 +57,14 @@ final class PaywallPlansContanieView: BaseView {
         return label
     }()
     
-    private let tryFreeButton: UIButton = {
+    private let actionButton: UIButton = {
         let button = UIButton()
-        button.setTitle("OnboardingPaywall.cta.tryFree".localized(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = EchosFont.helveticaMedium(size: 16).uiFont
         button.backgroundColor = .echosBlack
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
-        button.addTarget(self, action: #selector(tryFreeAction), for: .touchUpInside)
+        button.addTarget(self, action: #selector(actionButtonAction), for: .touchUpInside)
         return button
     }()
     
@@ -116,13 +107,45 @@ final class PaywallPlansContanieView: BaseView {
     }
     
     // MARK: - Setup
+    func setData(paywallModel: PaywallModelProtocol, selectedProduct: ApphudProduct?) {
+        guard let products = paywallModel.products else {
+            return
+        }
+        
+        productsStackView.arrangedSubviews.forEach { arrangedSubview in
+            arrangedSubview.removeFromSuperview()
+        }
+        
+        products.forEach { product in
+            let view = PriceContainerView(
+                product: product,
+                isSelected: product.productId == selectedProduct?.productId
+            )
+            view.productSelectTrigger = productSelectTrigger
+            productsStackView.addArrangedSubview(view)
+        }
+        
+        if let product = selectedProduct?.skProduct {
+            Task {
+                let isIntroAvailable = await PaywallModel.isIntroAvailable(product: product)
+                actionButton.setTitle(isIntroAvailable ? "OnboardingPaywall.cta.tryFree".localized() : "Paywall.subscribe".localized(), for: .normal)
+            }
+        } else {
+            actionButton.setTitle("OnboardingPaywall.cta.tryFree".localized(), for: .normal)
+        }
+    }
+    
+    func selectProduct(product: ApphudProduct) {
+        productsStackView.arrangedSubviews.forEach { view in
+            guard let priceView = view as? PriceContainerView else { return }
+            priceView.isSelected = priceView.product?.productId == product.productId
+        }
+    }
+    
     override func setupViews() {
         super.setupViews()
-        addSubviews(topStackViewContanierView, centerStackView, noPressureLabel, tryFreeButton, footerStack)
+        addSubviews(topStackViewContanierView, productsStackView, noPressureLabel, actionButton, footerStack)
         topStackViewContanierView.addSubview(topStackView)
-        centerStackView.addArrangedSubview(monthlyItem)
-        centerStackView.addArrangedSubview(annualItem)
-        centerStackView.addArrangedSubview(lifetimeItem)
         topStackView.addArrangedSubview(verticalItem1)
         topStackView.addArrangedSubview(verticalItem2)
         topStackView.addArrangedSubview(verticalItem3)
@@ -136,7 +159,7 @@ final class PaywallPlansContanieView: BaseView {
         topStackViewContanierView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(centerStackView.snp.top)
+            $0.bottom.equalTo(productsStackView.snp.top)
         }
         
         topStackView.snp.makeConstraints {
@@ -148,7 +171,7 @@ final class PaywallPlansContanieView: BaseView {
         configureFooterButton(restoreBtn, title: "OnboardingPaywall.footer.restore".localized(), font: EchosFont.helveticaRegular(size: 12).uiFont)
         configureFooterButton(privacyBtn, title: "OnboardingPaywall.footer.privacy".localized(), font: EchosFont.helveticaRegular(size: 12).uiFont)
         
-        centerStackView.snp.makeConstraints {
+        productsStackView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(noPressureLabel.snp.top).inset(-24)
         }
@@ -158,7 +181,7 @@ final class PaywallPlansContanieView: BaseView {
             $0.leading.greaterThanOrEqualToSuperview()
         }
         
-        tryFreeButton.snp.makeConstraints {
+        actionButton.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(54)
             $0.bottom.equalTo(footerStack.snp.top).offset(-16)
@@ -166,21 +189,10 @@ final class PaywallPlansContanieView: BaseView {
         
         noPressureLabel.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.bottom.equalTo(tryFreeButton.snp.top).offset(-32)
+            $0.bottom.equalTo(actionButton.snp.top).offset(-32)
         }
-        
-        discount80.snp.makeConstraints {
-            $0.trailing.equalTo(annualItem).inset(8)
-            $0.top.equalTo(annualItem).offset(-8)
-        }
-        
-        discount100.snp.makeConstraints {
-            $0.trailing.equalTo(lifetimeItem).inset(8)
-            $0.top.equalTo(lifetimeItem).offset(-8)
-        }
-        
-        discount80.transform = CGAffineTransform(rotationAngle: deg2rad(3.84))
-        discount100.transform = CGAffineTransform(rotationAngle: deg2rad(-2.81))
+
+        setupDummyProducts()
     }
     
     private func configureFooterButton(_ button: UIButton, title: String, font: UIFont) {
@@ -198,8 +210,8 @@ final class PaywallPlansContanieView: BaseView {
     //MARK: - Action
     
     
-    @objc private func tryFreeAction() {
-        tryFreeTrigger?()
+    @objc private func actionButtonAction() {
+        actionButtonTrigger?()
     }
     
     @objc private func restorePurchasesAction() {
@@ -212,5 +224,17 @@ final class PaywallPlansContanieView: BaseView {
     
     @objc private func privacyPolicyAction() {
         privacyPolicyTrigger?()
+    }
+}
+
+private extension PaywallPlansContainerView {
+    func setupDummyProducts() {
+        for _ in 0...2 {
+            let view = PriceContainerView(
+                product: nil,
+                isSelected: false
+            )
+            productsStackView.addArrangedSubview(view)
+        }
     }
 }

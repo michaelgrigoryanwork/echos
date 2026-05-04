@@ -1,13 +1,23 @@
 //
-//  PriceContanieView.swift
+//  PriceContainerView.swift
 //  Echos
 //
 //  Created by Emma on 26.02.26.
 //
 
 import UIKit
+import ApphudSDK
+import StoreKit
 
-final class PriceContanieView: BaseView {
+final class PriceContainerView: BaseView {
+    var productSelectTrigger: ((ApphudProduct?) -> Void)?
+
+    var isSelected: Bool = false {
+        didSet {
+            blurView.layer.borderWidth = !isSelected ? 0.5 : 2.0
+            blurView.layer.borderColor = !isSelected ? UIColor.echosBlack30.cgColor : UIColor.echosViolet.cgColor
+        }
+    }
     
     private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
     private let gradientLayer = CAGradientLayer()
@@ -44,14 +54,42 @@ final class PriceContanieView: BaseView {
         return label
     }()
     
-    init(titleText: String, mainPrise: String, secondPrice: String) {
-        super.init()
-        titleLabel.text = titleText
-        mainPriceLabel.text = mainPrise
-        secondPriceLabel.text = secondPrice
-        setupView()
-    }
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .medium)
+        view.color = .echosViolet
+        view.hidesWhenStopped = true
+        view.startAnimating()
+        return view
+    }()
     
+    private lazy var discount80: DiscountView = {
+        let view = DiscountView(titleText: "80% OFF")
+        view.isHidden = true
+        view.transform = CGAffineTransform(rotationAngle: deg2rad(3.84))
+        return view
+    }()
+    
+    private lazy var discount100: DiscountView = {
+        let view = DiscountView(titleText: "100% profit")
+        view.isHidden = true
+        view.transform = CGAffineTransform(rotationAngle: deg2rad(-2.81))
+        return view
+    }()
+        
+    private(set) var product: ApphudProduct?
+
+    init(product: ApphudProduct?, isSelected: Bool) {
+        self.product = product
+        super.init()
+        setupView()
+        Task {
+            if let storeProduct = try await product?.product() {
+                setData(product: storeProduct)
+                self.isSelected = isSelected
+            }
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -106,11 +144,53 @@ final class PriceContanieView: BaseView {
             $0.trailing.equalToSuperview().inset(24)
             $0.centerY.equalToSuperview()
         }
+        
+        addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+        addSubviews(discount80)
+        discount80.snp.remakeConstraints {
+            $0.trailing.equalToSuperview().inset(8)
+            $0.top.equalToSuperview().offset(-8)
+        }
+
+        addSubviews(discount100)
+        discount100.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(8)
+            $0.top.equalToSuperview().offset(-8)
+        }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(_:)))
+        addGestureRecognizer(tapGesture)
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = blurView.bounds
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
+    }
+}
+
+private extension PriceContainerView {
+    func setData(product: Product?) {
+        guard let product else {
+            return
+        }
+        activityIndicator.stopAnimating()
+        titleLabel.text = PaywallModel.getSubscriptionDisplayName(product: product)
+        mainPriceLabel.text = PaywallModel.getSubscriptionDisplayPrice(product: product)
+        secondPriceLabel.text = PaywallModel.getSubscriptionDisplayPriceForWeek(product: product)
+        discount80.isHidden = product.subscription?.subscriptionPeriod != .yearly
+        discount100.isHidden = product.type != .nonConsumable
+    }
+    
+    @objc func didTapView(_ sender: UITapGestureRecognizer) {
+        productSelectTrigger?(product)
+    }
+    
+    func deg2rad(_ deg: CGFloat) -> CGFloat {
+        deg * .pi / 180
     }
 }

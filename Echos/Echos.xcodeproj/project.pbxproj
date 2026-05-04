@@ -18,6 +18,7 @@
 		3AC425A52E689949004267D3 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 3AC425A42E689949004267D3 /* FirebaseRemoteConfig */; };
 		3AC425A72E689949004267D3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3AC425A62E689949004267D3 /* FirebaseStorage */; };
 		3AC426592E68A94D004267D3 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3AC426582E68A94D004267D3 /* GoogleSignIn */; };
+		3ACEA5522F9658DB004328A1 /* ApphudSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3ACEA5512F9658DB004328A1 /* ApphudSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 				006066202EC75F5A00146FED /* Lottie in Frameworks */,
 				3AC425A72E689949004267D3 /* FirebaseStorage in Frameworks */,
 				3AC425A12E689949004267D3 /* FirebaseFirestore in Frameworks */,
+				3ACEA5522F9658DB004328A1 /* ApphudSDK in Frameworks */,
 				3A791F952E5DDFDE00E0CD1D /* SnapKit in Frameworks */,
 				3AC426592E68A94D004267D3 /* GoogleSignIn in Frameworks */,
 			);
@@ -114,6 +116,7 @@
 				3AC426582E68A94D004267D3 /* GoogleSignIn */,
 				0060661F2EC75F5A00146FED /* Lottie */,
 				006066B02ECB4BD900146FED /* JTAppleCalendar */,
+				3ACEA5512F9658DB004328A1 /* ApphudSDK */,
 			);
 			productName = Echos;
 			productReference = 3A791F692E5DD8EB00E0CD1D /* Echos.app */;
@@ -127,7 +130,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
-				LastUpgradeCheck = 1640;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					3A791F682E5DD8EB00E0CD1D = {
 						CreatedOnToolsVersion = 16.4;
@@ -150,6 +153,7 @@
 				3AC426572E68A94D004267D3 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				0060661E2EC75F5A00146FED /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				006066AF2ECB4BD900146FED /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
+				3ACEA5502F9658DB004328A1 /* XCRemoteSwiftPackageReference "ApphudSDK" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3A791F6A2E5DD8EB00E0CD1D /* Products */;
@@ -310,6 +314,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -369,6 +374,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
@@ -439,6 +445,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		3ACEA5502F9658DB004328A1 /* XCRemoteSwiftPackageReference "ApphudSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apphud/ApphudSDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -496,6 +510,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AC426572E68A94D004267D3 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignIn;
+		};
+		3ACEA5512F9658DB004328A1 /* ApphudSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ACEA5502F9658DB004328A1 /* XCRemoteSwiftPackageReference "ApphudSDK" */;
+			productName = ApphudSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

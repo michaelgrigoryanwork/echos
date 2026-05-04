@@ -1,5 +1,5 @@
 //
-//  PaywallContanierView.swift
+//  PaywallContainerView.swift
 //  Echos
 //
 //  Created by Emma on 10.11.25.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class PaywallContanierView: BaseView {
+final class PaywallContainerView: BaseView {
     
     var tryFreeTrigger: (() -> Void)?
     var viewOthersTrigger: (() -> Void)?

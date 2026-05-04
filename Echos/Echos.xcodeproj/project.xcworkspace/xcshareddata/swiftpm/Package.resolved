@@ -1,5 +1,5 @@
 {
-  "originHash" : "ad7445ce21b2958419438850a442a2822359923dad941ee5b027b8b05bf2e665",
+  "originHash" : "a17febbc205e7bbf1184bf763b292822dd5092077cca7c75806416bbe2acff52",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "145104f5ea9d58ae21b60add007c33c1cc0c948e",
         "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "apphudsdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apphud/ApphudSDK",
+      "state" : {
+        "revision" : "4e030ce813184c85d0a252e43e1591ddc4a1f6e6",
+        "version" : "4.0.4"
       }
     },
     {

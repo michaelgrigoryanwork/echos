@@ -9,8 +9,8 @@ import UIKit
 
 class PaywallViewController: BaseViewController {
     
-    private lazy var contentView: PaywallContanierView = {
-        let view = PaywallContanierView()
+    private lazy var contentView: PaywallContainerView = {
+        let view = PaywallContainerView()
         return view
     }()
     

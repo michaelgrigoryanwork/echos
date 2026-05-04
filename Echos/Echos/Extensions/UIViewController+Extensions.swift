@@ -49,3 +49,9 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    var moduleName: String {
+        NSStringFromClass(self.classForCoder).components(separatedBy: ".").first!
+    }
+}
